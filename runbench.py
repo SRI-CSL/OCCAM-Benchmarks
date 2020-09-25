@@ -23,7 +23,7 @@ verbose = False
 occam_stats = collections.namedtuple('OccamStats', 'funcs insts mem_insts')
 
 def get_benchmark_sets():
-    return ['portfolio', 'spec2006']
+    return ['trimmer','portfolio', 'spec2006']
 
 def get_occam_home():
     path = os.environ.get('OCCAM_HOME')
