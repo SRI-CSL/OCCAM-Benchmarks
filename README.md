@@ -1,4 +1,4 @@
-# Benchmark runner for OCCAM #
+# Benchmark runner for [OCCAM](https://github.com/SRI-CSL/OCCAM) #
 
 To run OCCAM on a set of benchmarks and show metrics, type:
 
