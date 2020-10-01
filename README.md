@@ -53,17 +53,20 @@ tree         106      93          12    7409     8921         -20        1615   
 readelf      384     281          26   83390   111227         -33        6117        7714             -26
 bzip2         92      41          55   22047    19055          13        4761        4303               9
 mcf           43      22          48    2592     2388           7         654         488              25
+```
 
 ## Benchmark categories ## 
 
 - `portfolio`: some real applications 
 - `spec2006`: SPEC 2006 benchmarks
+- `coreutils`: coreutils benchmarks
 
 ## Deprecated options which are not maintained anyore ##
 
 The option `--rop` shows also the number of ROP, JOP, and SYS gadgets,
 before and after specialization.
 
+```
 Gadget Reduction: (B:before and A:after OCCAM)
 
 Program    B ROP   A ROP   % ROP Red   B SYS   A SYS   % SYS Red   B JOP   A JOP   % JOP Red
