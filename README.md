@@ -2,16 +2,30 @@
 
 To run OCCAM on a set of benchmarks and show metrics, type:
 
-	runbench.py 
-	runbench.py --rop
-	runbench.py --cpu=60 --mem=4096
-	
-By default, `runbench.py` runs OCCAM on the benchmarks and displays
-the number of functions, number of instructions, etc. before and after
-the specialization takes place.
+	runbench.py --sets="portfolio.set"
 
-The option `--rop` shows also the number of ROP, JOP, and SYS gadgets,
-before and after specialization.
+If you want to run more than one benchmark set then add more .set
+files in the option `--sets` separated by comma:
+
+	runbench.py --sets="portfolio.set,spec2006.set"
+
+If you want to pass extra options to `slash` then type:
+
+	runbench.py --sets="portfolio.set" --slash-opts="--disable-inlining"
+
+If you want to pass multiple options by separating them by comma:
+
+	runbench.py --sets="portfolio.set" --slash-opts="--disable-inlining,--enable-config-prime"
+
+If you want to add a timeout or memory limit then type:
+
+	runbench.py --sets="portfolio.set" --cpu=60 --mem=4096
+	
+By default, `runbench.py` runs OCCAM on the set of benchmarks selected
+by option `--sets` and displays the number of functions, number of
+instructions, etc. before and after the specialization takes
+place. The option `--sets` is mandatory and expects a list of .set
+files separated by comma.
 
 The options `--cpu` and `--mem` set limits on CPU (in seconds) and
 memory (in MB) for running OCCAM. The compilation of the programs is
@@ -40,6 +54,16 @@ readelf      384     281          26   83390   111227         -33        6117   
 bzip2         92      41          55   22047    19055          13        4761        4303               9
 mcf           43      22          48    2592     2388           7         654         488              25
 
+## Benchmark categories ## 
+
+- `portfolio`: some real applications 
+- `spec2006`: SPEC 2006 benchmarks
+
+## Deprecated options which are not maintained anyore ##
+
+The option `--rop` shows also the number of ROP, JOP, and SYS gadgets,
+before and after specialization.
+
 Gadget Reduction: (B:before and A:after OCCAM)
 
 Program    B ROP   A ROP   % ROP Red   B SYS   A SYS   % SYS Red   B JOP   A JOP   % JOP Red
@@ -54,10 +78,6 @@ mcf          168     115          31       0       0           0       0       0
 that there was an increase.
 
 
-## Benchmark categories ## 
-
-- `spec2006`: SPEC 2006 benchmarks
-- `portfolio`: some real applications 
  
 ---
 

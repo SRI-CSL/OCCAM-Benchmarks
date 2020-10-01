@@ -22,9 +22,6 @@ verbose = False
 # named tuple for occam stats
 occam_stats = collections.namedtuple('OccamStats', 'funcs insts mem_insts')
 
-def get_benchmark_sets():
-    return ['coreutils', 'portfolio', 'spec2006']
-
 def get_occam_home():
     path = os.environ.get('OCCAM_HOME')
     if path is None:
@@ -42,13 +39,13 @@ def get_ropgadget():
     
 def get_benchmarks(name):
     import json
-    with open(name + ".set", "r") as f:
+    with open(name, "r") as f:
         benchs = list()
         try:
             d = json.load(f)
             benchs = d['benchmarks']
         except ValueError as msg:
-            print "Error: while decoding JSON file " + name + ".set"
+            print "Error: while decoding JSON file " + name 
             print msg
     f.close()
     return benchs
@@ -198,6 +195,7 @@ def run_occam(dirname, execname, workdir, cpu, mem, slash_opts= []):
         #2. Run slash (OCCAM) on it: `build.sh opts`
         slash_args = ['./build.sh']
         slash_args.extend(slash_opts)
+        print "Running slash with options " + str(slash_args)
         returncode,_,_,_ = \
          cmd.run_limited_cmd(slash_args, outfd, errfd, benchmark_name, dirname, cpu, mem)
         if returncode <> 0:
@@ -301,17 +299,15 @@ def parse_opt (argv):
                     help='CPU time limit (seconds)', default=-1)
     p.add_argument ('--mem', type=int, dest='mem', metavar='MB',
                     help='MEM limit (MB)', default=-1)
-    p.add_argument ('--rop', help="Generate statistics about ROP/SYS/JOP gadgets",
+    p.add_argument ('--sets', type=str, 
+                    help="List of .set files (separated by comma)",
+                    dest='benchmark_sets', default="")
+    p.add_argument ('--slash-opts', type=str,
+                    help="Options passed to slash.py (options separated by comma)",
+                    dest='slash_opts', default="")
+    p.add_argument ('--rop', help="Generate statistics about ROP/SYS/JOP gadgets (not maintained anymore)",
                     dest='rop', default=False, action="store_true")
-    p.add_argument ('--disable-inlining',
-                    help="Run occam without inlining function",
-                    dest='disable_inlining', default=False, action="store_true")
-    p.add_argument ('--ai-dce',
-                    help="Use crab to perform dead code elimination",
-                    dest='use_ai_dce', default=False, action="store_true")
-    p.add_argument ('--ipdse',
-                    help="Enable inter-procedural dead store elimination",
-                    dest='use_ipdse', default=False, action="store_true")
+    
     
     args = p.parse_args (argv)
     return args
@@ -319,18 +315,26 @@ def parse_opt (argv):
 def main (argv):
     args = parse_opt (argv[1:])
     workdir = cmd.create_work_dir(args.temp_dir, args.save_temps)
-    sets = get_benchmark_sets()
+    sets = []
+    occam_opts = []
     occam_tab = list()
     ropgadget_tab = list()
 
-    occam_opts = []
-    if args.disable_inlining:
-        occam_opts += ['--disable-inlining']
-    if args.use_ai_dce:
-        occam_opts += ['--ai-dce']
-    if args.use_ipdse:
-        occam_opts += ['--ipdse']
+    for slash_opt in args.slash_opts.split(","):
+        occam_opts += [slash_opt]
+
+    for benchmark_set in args.benchmark_sets.split(","):
+        if benchmark_set is not "":
+            sets += [benchmark_set]
+
+    if not sets:
+        print "Warning: you need to choose a benchmark set. Use option --sets"
+        return 0
     
+    if args.rop:
+        print "Warning: option --rop is not maintained anymore."
+        args.rop = False
+        
     dt = datetime.datetime.now ().strftime ('%d/%m/%Y %H:%M:%S')    
     print "[" + dt + "] " +  "STARTED runbench"    
     for s in sets:
