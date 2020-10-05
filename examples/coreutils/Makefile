@@ -1,9 +1,4 @@
-
-
-
-
 all:
-	rm -rf coreutils
 	git clone git://git.savannah.gnu.org/coreutils.git
 	mkdir coreutils_source
 	mv coreutils coreutils_source
