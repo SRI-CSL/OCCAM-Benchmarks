@@ -1,0 +1,79 @@
+{
+    "benchmarks": [
+	{
+            "dirname" : "examples/trimmer/sans",
+            "execname": "sans",
+            "enabled" : "false"
+        },
+        {
+            "dirname" : "examples/trimmer/gzip",
+            "execname": "gzip",
+            "enabled" : "false"
+        },
+	{
+            "dirname" : "examples/trimmer/mini_httpd",
+            "execname": "mini_httpd",
+            "enabled" : "false"
+        },
+        {
+            "dirname" : "examples/trimmer/aircrack",
+            "execname": "aircrack-ng",
+            "enabled" : "false"
+        },
+	{
+            "dirname" : "examples/trimmer/airtun",
+            "execname": "airtun-ng",
+            "enabled" : "false"
+        },
+        {
+            "dirname" : "examples/trimmer/thttpd",
+            "execname": "thttpd",
+            "enabled" : "false"
+        },
+        {
+            "dirname" : "examples/trimmer/netperf",
+            "execname": "netperf",
+            "enabled" : "false"
+        },
+        {
+            "dirname" : "examples/trimmer/wget",
+            "execname": "wget",
+            "enabled" : "false"
+        },
+        {
+            "dirname" : "examples/trimmer/readlelf",
+            "execname": "readelf",
+            "enabled" : "false"
+        },
+        {
+            "dirname" : "examples/trimmer/objdump",
+            "execname": "objdump",
+            "enabled" : "false"
+        },
+        {
+            "dirname" : "examples/trimmer/totd",
+            "execname": "totd",
+            "enabled" : "false"
+        },
+        {
+            "dirname" : "examples/trimmer/bzip2",
+            "execname": "bzip2",
+            "enabled" : "false"
+        },
+        {
+            "dirname" : "examples/trimmer/memcached",
+            "execname": "memcached",
+            "enabled" : "false"
+        },
+        {
+            "dirname" : "examples/trimmer/netstat",
+            "execname": "netstat",
+            "enabled" : "false"
+        },
+        {
+            "dirname" : "examples/trimmer/dnsproxy",
+            "execname": "dnsproxy",
+            "enabled" : "false"
+        }
+    ]
+}

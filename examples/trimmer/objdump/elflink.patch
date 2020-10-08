@@ -1,0 +1,20 @@
+--- elflink.c	2020-10-08 14:09:19.903439639 +0000
++++ elflink_new.c	2020-10-08 14:24:58.644589510 +0000
+@@ -5317,7 +5317,7 @@
+   len = strlen (name);
+   copy = (char *) bfd_alloc (abfd, len);
+   if (copy == NULL)
+-    return (struct elf_link_hash_entry *) 0 - 1;
++    return (struct elf_link_hash_entry *)  - 1;
+ 
+   first = p - name + 1;
+   memcpy (copy, name, first);
+@@ -5415,7 +5415,7 @@
+ 	    }
+ 
+ 	  h = archive_symbol_lookup (abfd, info, symdef->name);
+-	  if (h == (struct elf_link_hash_entry *) 0 - 1)
++	  if (h == (struct elf_link_hash_entry *)  - 1)
+ 	    goto error_return;
+ 
+ 	  if (h == NULL)
