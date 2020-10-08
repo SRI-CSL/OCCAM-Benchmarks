@@ -1,0 +1,11 @@
+--- Makefile	2020-09-03 10:29:20.746007842 +0000
++++ Makefile_2	2020-09-03 10:28:42.096695590 +0000
+@@ -113,7 +113,7 @@
+ 
+ NET_LIB = $(NET_LIB_PATH)/lib$(NET_LIB_NAME).a
+ 
+-CFLAGS	= -O0 -Xclang -disable-O0-optnone $(COPTS) -I. -idirafter ./include/ -I$(NET_LIB_PATH)
++CFLAGS	= $(COPTS) -I. -idirafter ./include/ -I$(NET_LIB_PATH)
+ LDFLAGS	= $(LOPTS) -L$(NET_LIB_PATH)
+ 
+ SUBDIRS	= man/ $(NET_LIB_PATH)/

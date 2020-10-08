@@ -1,0 +1,23 @@
+--- netlib.c	2020-10-08 10:20:46.234959112 +0000
++++ netlib_new.c	2020-10-08 10:21:11.895997946 +0000
+@@ -1898,17 +1898,17 @@
+      fall-back on what we had before, which is to use just the size of
+      an unsigned long. raj 2006-09-14 */
+ 
+-#if defined(__CPU_SETSIZE)
++/*#if defined(__CPU_SETSIZE)
+ #define NETPERF_CPU_SETSIZE __CPU_SETSIZE
+ #define NETPERF_CPU_SET(cpu, cpusetp)  __CPU_SET(cpu, cpusetp)
+ #define NETPERF_CPU_ZERO(cpusetp)      __CPU_ZERO (cpusetp)
+   typedef cpu_set_t netperf_cpu_set_t;
+-#else
++#else*/
+ #define NETPERF_CPU_SETSIZE sizeof(unsigned long)
+ #define NETPERF_CPU_SET(cpu, cpusetp) *cpusetp = 1 << cpu
+ #define NETPERF_CPU_ZERO(cpusetp) *cpusetp = (unsigned long)0
+   typedef unsigned long netperf_cpu_set_t;
+-#endif
++//#endif
+ 
+   netperf_cpu_set_t   netperf_cpu_set;
+   unsigned int        len = sizeof(netperf_cpu_set);
