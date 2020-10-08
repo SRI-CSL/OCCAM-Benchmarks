@@ -17,7 +17,7 @@ LOG_FILE?=logs
 
 BITCODE_WRAPPER?=gclang
 BITCODE_EXTRACT?=get-bc
-OPT_NAME=opt-10
+OPT_NAME=opt
 CFLAGS = -mem2reg -loops -lcssa -loop-simplify -loop-rotate -indvars
 
 
