@@ -58,7 +58,7 @@ ${HELPER_SCRIPT}:
 	tar -xvf ./${HELPER_TAR}
 clean:
 	rm -rf ${SANS_NAME}
-	rm -rf *.bc *_slashed *_slashed_stripped
+	rm -rf *.bc *_slashed *_slashed_stripped *manifest
 	rm -rf ${OUT_DIR}
 	rm -rf slash
 	rm -rf sans_slashed
