@@ -61,7 +61,7 @@ mcf           43      22          48    2592     2388           7         654   
 - `spec2006`: SPEC 2006 benchmarks
 - `coreutils`: coreutils benchmarks
 
-## Deprecated options which are not maintained anyore ##
+## Deprecated options which are not maintained anymore ##
 
 The option `--rop` shows also the number of ROP, JOP, and SYS gadgets,
 before and after specialization.
