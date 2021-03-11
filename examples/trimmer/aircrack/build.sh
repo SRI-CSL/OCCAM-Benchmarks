@@ -11,8 +11,12 @@ function usage() {
 #default values
 INTER_SPEC="none"
 INTRA_SPEC="onlyonce"
-USE_MUSLLVM="false"
 OPT_OPTIONS=""
+USE_MUSLLVM="false"
+##----------------------------------------------------------------##
+## This path to be changed accordingly if USE_MUSLLVM is enabled.
+##----------------------------------------------------------------##
+MUSLLVM_DIR="/homes/jorge/Repos/OCCAM-10/examples/linux/musllvm"
 
 POSITIONAL=()
 while [[ $# -gt 0 ]]
@@ -68,7 +72,7 @@ set -- "${POSITIONAL[@]}" # restore positional parameters
 #check that the require dependencies are built
 if [ $USE_MUSLLVM == "true" ];
 then
-    declare -a bitcode=("aircrack-ng.bc" "libc.a.bc" "libc.a")
+    declare -a bitcode=("aircrack-ng.bc" "${MUSLLVM_DIR}/libc.a.bc" "${MUSLLVM_DIR}/libc.a")
 else
     declare -a bitcode=("aircrack-ng.bc")
 fi    
@@ -92,16 +96,32 @@ done
 
 MANIFEST=aircrack-ng.manifest
 
-cat > ${MANIFEST} <<EOF    
-{"binary": "aircrack-ng_fin", 
-"native_libs": [], 
-"name": "aircrack-ng", 
-"static_args": ["-w", "password.lst","wpa.cap"], 
-"modules": [], 
-"ldflags": ["-lssl","-lcrypto","-lpthread","$(pwd)/sha1-sse2.S","-O3"], 
-"main": "aircrack-ng.bc"}
+if [ $USE_MUSLLVM == "true" ];
+then
+    echo "Linking aircrack-ng.bc with libc.a.bc."
+    llvm-link aircrack-ng.bc ${MUSLLVM_DIR}/libc.a.bc -o aircrack-ng-with-musllvm.bc
+    cat > ${MANIFEST} <<EOF    
+{ "binary": "aircrack-ng_fin"
+, "native_libs": ["${MUSLLVM_DIR}/libc.a"]
+, "name": "aircrack-ng"
+, "static_args": ["-w", "password.lst","wpa.cap"]
+, "modules": []
+, "ldflags": ["-lssl","-lcrypto","-lpthread","$(pwd)/sha1-sse2.S","-O3"]
+, "main": "aircrack-ng-with-musllvm.bc"
+}
 EOF
-
+else
+    cat > ${MANIFEST} <<EOF    
+{ "binary": "aircrack-ng_fin"
+, "native_libs": []
+, "name": "aircrack-ng"
+, "static_args": ["-w", "password.lst","wpa.cap"]
+, "modules": []
+, "ldflags": ["-lssl","-lcrypto","-lpthread","$(pwd)/sha1-sse2.S","-O3"]
+, "main": "aircrack-ng.bc"
+}
+EOF
+fi    
     
 
 export OCCAM_LOGLEVEL=INFO
