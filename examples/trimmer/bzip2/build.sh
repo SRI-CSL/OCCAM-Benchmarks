@@ -91,12 +91,13 @@ done
 
 
 MANIFEST=bzip2.manifest
+EXAMPLE=`realpath huffman.c`
 
 cat > ${MANIFEST} <<EOF    
 {"binary": "bzip2_fin", 
 "native_libs": [], 
 "name": "bzip2", 
-"static_args": ["-fkqs", "/OCCAM-Benchmarks/examples/trimmer/bzip2/huffman.c"], 
+"static_args": ["-fkqs", "$EXAMPLE"], 
 "modules": [], 
 "ldflags": ["-lbz2","-O3"], 
 "main": "bzip2.bc"}

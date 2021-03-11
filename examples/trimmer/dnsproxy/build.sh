@@ -91,12 +91,13 @@ done
 
 
 MANIFEST=dnsproxy.manifest
+CONF_EXAMPLE=`realpath dnsproxy.conf`
 
 cat > ${MANIFEST} <<EOF    
 {"binary": "dnsproxy_fin", 
 "native_libs": [], 
 "name": "dnsproxy", 
-"static_args": ["-c", "/OCCAM-Benchmarks/examples/trimmer/dnsproxy/dnsproxy.conf"], 
+"static_args": ["-c", "$CONF_EXAMPLE"], 
 "modules": [], 
 "ldflags": ["-levent","-O3"], 
 "main": "dnsproxy.bc"}

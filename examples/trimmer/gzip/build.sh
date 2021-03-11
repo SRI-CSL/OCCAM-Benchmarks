@@ -91,12 +91,13 @@ done
 
 
 MANIFEST=gzip.manifest
+EXAMPLE=`realpath huffman.c`
 
 cat > ${MANIFEST} <<EOF    
 {"binary": "gzip_fin", 
 "native_libs": [], 
 "name": "gzip", 
-"static_args": ["--force",  "--quiet",  "/OCCAM-Benchmarks/examples/trimmer/gzip/huffman.c"], 
+"static_args": ["--force",  "--quiet",  "$EXAMPLE"], 
 "modules": [], 
 "ldflags": ["-lbz2","-O3"], 
 "main": "gzip.bc"}
