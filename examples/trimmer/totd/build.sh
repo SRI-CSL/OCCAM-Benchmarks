@@ -91,12 +91,13 @@ done
 
 
 MANIFEST=totd.manifest
+CONF=`realpath totdipv4.conf`
 
 cat > ${MANIFEST} <<EOF    
 {"binary": "totd_fin", 
 "native_libs": [], 
 "name": "totd", 
-"static_args": ["-c", "/OCCAM-Benchmarks/examples/trimmer/totd/totdipv4.conf", "-d2"],
+"static_args": ["-c", "$CONF", "-d2"],
 "modules": [], 
 "ldflags": ["-O3"], 
 "main": "totd.bc"}
