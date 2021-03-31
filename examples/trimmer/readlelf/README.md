@@ -1,0 +1,1 @@
+Use examples/portfolio/readelf instead.
