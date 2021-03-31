@@ -8,11 +8,72 @@ function usage() {
     echo "       VAL=none|aggressive|nonrec-aggressive|onlyonce"
 }
 
+function manifest_static_with_musllvm() {
+    MANIFEST=$1
+    SAMPLE=$2
+    cat <<EOF > ${MANIFEST} 
+    { "main" : "readelf.bc"
+    , "binary"  : "readelf"
+    , "modules"    : ["libc.a.bc"]
+    , "native_libs" : [ "/usr/lib/libiconv.dylib", "libc.a" ]
+    , "ldflags" : [ "-O2" ]
+    , "name"    : "readelf"
+    , "static_args" : ["-s", "$SAMPLE"]
+    }
+EOF
+}
+
+function manifest_static() {
+    MANIFEST=$1
+    SAMPLE=$2    
+    cat <<EOF > ${MANIFEST} 
+    { "main" : "readelf.bc"
+    , "binary"  : "readelf"
+    , "modules"    : []
+    , "native_libs" : [ "/usr/lib/libiconv.dylib" ]
+    , "ldflags" : [ "-O2" ]
+    , "name"    : "readelf"
+    , "static_args" : ["-s","$SAMPLE"]
+    }
+EOF
+}
+
+function manifest_dynamic_with_musllvm() {
+    MANIFEST=$1
+    cat > ${MANIFEST} <<EOF    
+    { "main" : "readelf.bc"
+    , "binary"  : "readelf"
+    , "modules"    : ["libc.a.bc"]
+    , "native_libs" : [ "/usr/lib/libiconv.dylib", "libc.a" ]
+    , "ldflags" : [ "-O2" ]
+    , "name"    : "readelf"
+    , "static_args" : ["-s"]
+    , "dynamic_args" : "1"
+    }
+EOF
+}
+
+function manifest_dynamic() {
+    MANIFEST=$1
+    cat > ${MANIFEST} <<EOF    
+    { "main" : "readelf.bc"
+    , "binary"  : "readelf"
+    , "modules"    : []
+    , "native_libs" : [ "/usr/lib/libiconv.dylib" ]
+    , "ldflags" : [ "-O2" ]
+    , "name"    : "readelf"
+    , "static_args" : ["-s"]
+    , "dynamic_args" : "1"
+    }
+EOF
+}
+
 #default values
 INTER_SPEC="onlyonce"
 INTRA_SPEC="onlyonce"
 OPT_OPTIONS=""
 USE_MUSLLVM="false"
+USE_DYN_ARGS="false"
 
 POSITIONAL=()
 while [[ $# -gt 0 ]]
@@ -40,7 +101,12 @@ case $key in
     -with-musllvm|--with-musllvm)
 	USE_MUSLLVM="true" 
 	shift # past argument
+	;;
+    -use-dynamic-arguments|--use-dynamic-arguments)
+	USE_DYN_ARGS="true" 
+	shift # past argument
 	;;        
+    
     -ipdse|--ipdse)
 	OPT_OPTIONS="${OPT_OPTIONS} --ipdse"
 	shift # past argument
@@ -92,32 +158,24 @@ done
 
 MANIFEST=readelf.manifest
 
-if [ $USE_MUSLLVM == "true" ];
+if [ $USE_DYN_ARGS == "true" ];
 then
-    cat > ${MANIFEST} <<EOF    
-{ "main" : "readelf.bc"
-, "binary"  : "readelf"
-, "modules"    : ["libc.a.bc"]
-, "native_libs" : [ "/usr/lib/libiconv.dylib", "libc.a" ]
-, "ldflags" : [ "-O2" ]
-, "name"    : "readelf"
-, "static_args" : ["-s"]
-, "dynamic_args" : "1"
-}
-EOF    
+    if [ $USE_MUSLLVM == "true" ];
+    then
+	manifest_dynamic_with_musllvm $MANIFEST
+    else
+	manifest_dynamic $MANIFEST	
+    fi    
 else
-    cat > ${MANIFEST} <<EOF    
-{ "main" : "readelf.bc"
-, "binary"  : "readelf"
-, "modules"    : []
-, "native_libs" : [ "/usr/lib/libiconv.dylib" ]
-, "ldflags" : [ "-O2" ]
-, "name"    : "readelf"
-, "static_args" : ["-s"]
-, "dynamic_args" : "1"
-}
-EOF
-fi    
+    SAMPLE=`realpath sample-small`    
+    if [ $USE_MUSLLVM == "true" ];
+    then
+	manifest_static_with_musllvm $MANIFEST $SAMPLE      
+    else
+	manifest_static $MANIFEST $SAMPLE      	
+    fi    
+fi
+
 export OCCAM_LOGLEVEL=INFO
 export OCCAM_LOGFILE=${PWD}/slash/occam.log
 

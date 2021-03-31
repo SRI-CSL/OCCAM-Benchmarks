@@ -25,7 +25,9 @@ slash:
 
 clean:
 	rm -rf ./binutils/binutils/readelf slash
-
+	rm -rf readelf.manifest
+	rm -rf readelf_orig
+	rm -rf readelf_slashed
 
 distclean: clean
-	rm -rf binutils readelf.bc readelf_slash readelf
+	rm -rf binutils readelf.bc readelf
