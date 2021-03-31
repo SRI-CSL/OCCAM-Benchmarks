@@ -4,7 +4,7 @@
 set -e
 
 function usage() {
-    echo "Usage: $0 [--with-musllvm] [--disable-inlining] [--ipdse] [--use-crabopt] [--use-pointer-analysis] [--inter-spec VAL] [--intra-spec VAL] [--enable-config-prime] [--help]"
+    echo "Usage: $0 [--with-musllvm] [--disable-inlining] [--ipdse] [--use-crabopt] [--use-pointer-analysis] [--inter-spec VAL] [--intra-spec VAL] [--enable-config-prime] [--use-dynamic-args] [--help]"
     echo "       VAL=none|aggressive|nonrec-aggressive|onlyonce"
 }
 
@@ -13,6 +13,7 @@ INTER_SPEC="none"
 INTRA_SPEC="onlyonce"
 USE_MUSLLVM="false"
 OPT_OPTIONS=""
+USE_DYN_ARGS="false"
 
 POSITIONAL=()
 while [[ $# -gt 0 ]]
@@ -39,6 +40,10 @@ case $key in
 	;;
     -with-musllvm|--with-musllvm)
 	USE_MUSLLVM="true" 
+	shift # past argument
+	;;
+    -use-dynamic-args|--use-dynamic-args)
+	USE_DYN_ARGS="true" 
 	shift # past argument
 	;;            
     -ipdse|--ipdse)
@@ -91,8 +96,21 @@ done
 
 
 MANIFEST=gzip.manifest
-EXAMPLE=`realpath huffman.c`
 
+if [ $USE_DYN_ARGS == "true" ];
+then
+cat > ${MANIFEST} <<EOF    
+{"binary": "gzip_fin", 
+"native_libs": [], 
+"name": "gzip", 
+"static_args": ["--force",  "--quiet"], 
+"dynamic_args": "1",
+"modules": [], 
+"ldflags": ["-lbz2","-O3"], 
+"main": "gzip.bc"}
+EOF
+else
+EXAMPLE=`realpath huffman.c`    
 cat > ${MANIFEST} <<EOF    
 {"binary": "gzip_fin", 
 "native_libs": [], 
@@ -102,13 +120,14 @@ cat > ${MANIFEST} <<EOF
 "ldflags": ["-lbz2","-O3"], 
 "main": "gzip.bc"}
 EOF
-
-    
+fi    
 
 export OCCAM_LOGLEVEL=INFO
 export OCCAM_LOGFILE=${PWD}/slash/occam.log
 
 rm -rf slash
+rm -f huffman.c.gz
+cp helper_huffman.c huffman.c
 
 # OCCAM
 SLASH_OPTS="--inter-spec-policy=${INTER_SPEC} --intra-spec-policy=${INTRA_SPEC}   --stats $OPT_OPTIONS"

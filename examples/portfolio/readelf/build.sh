@@ -4,7 +4,7 @@
 set -e
 
 function usage() {
-    echo "Usage: $0 [--with-musllvm] [--disable-inlining] [--ipdse] [--use-crabopt] [--use-pointer-analysis] [--inter-spec VAL] [--intra-spec VAL] [--enable-config-prime] [--help]"
+    echo "Usage: $0 [--with-musllvm] [--disable-inlining] [--ipdse] [--use-crabopt] [--use-pointer-analysis] [--inter-spec VAL] [--intra-spec VAL] [--enable-config-prime] [--use-dyn-args] [--help]"
     echo "       VAL=none|aggressive|nonrec-aggressive|onlyonce"
 }
 
@@ -102,7 +102,7 @@ case $key in
 	USE_MUSLLVM="true" 
 	shift # past argument
 	;;
-    -use-dynamic-arguments|--use-dynamic-arguments)
+    -use-dynamic-args|--use-dynamic-args)
 	USE_DYN_ARGS="true" 
 	shift # past argument
 	;;        
