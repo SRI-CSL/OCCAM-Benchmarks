@@ -92,6 +92,29 @@ done
 
 MANIFEST=memcached.manifest
 
+### statically linked memcached.bc and libevent.bc
+# cat > ${MANIFEST} <<EOF    
+# {"binary": "memcached_fin", 
+# "native_libs": [], 
+# "name": "memcached", 
+# "static_args": ["-m","64","-l","127.0.0.1","-u","root"], 
+# "modules": [], 
+# "ldflags": ["-lpthread","-O3"], 
+# "main": "memcached_with_libevent.bc"}
+# EOF
+
+### memcached.bc and libevent.bc as dynamic library
+# cat > ${MANIFEST} <<EOF    
+# {"binary": "memcached_fin", 
+# "native_libs": [], 
+# "name": "memcached", 
+# "static_args": ["-m","64","-l","127.0.0.1","-u","root"], 
+# "modules": ["libevent-2.1.so.bc"], 
+# "ldflags": ["-lpthread","-O3"], 
+# "main": "memcached.bc"}
+# EOF
+
+### Only memcached.bc
 cat > ${MANIFEST} <<EOF    
 {"binary": "memcached_fin", 
 "native_libs": [], 

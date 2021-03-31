@@ -1,3 +1,7 @@
+##########
+## FIXME: add rule to build memcached with libevent
+##########
+
 MEMCACHED=memcached
 MEMCACHED_BITCODE=${MEMCACHED}.bc
 MEMCACHED_VERSION=1.4.25
@@ -18,6 +22,7 @@ BITCODE_EXTRACT?=get-bc
 OPT_NAME=opt
 CFLAGS = -mem2reg -loops -lcssa -loop-simplify -loop-rotate -indvars
 
+# wget https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz
 
 all: ${MEMCACHED_BITCODE}
 
@@ -36,7 +41,7 @@ ${MEMCACHED_BITCODE}: ${MEMCACHED_NAME}
 	${BITCODE_EXTRACT} ${MEMCACHED} && \
 	${OPT_NAME} ${CFLAGS} ${MEMCACHED_BITCODE} -o ${MEMCACHED_BITCODE} && \
 	mv ${MEMCACHED_BITCODE} ../
-		
+
 ${OUT_DIR}:
 	mkdir -p ${OUT_DIR}
 
@@ -48,6 +53,12 @@ ${HELPER_SCRIPT}:
 	tar -xvf ./${HELPER_TAR}
 
 clean:
-	rm -rf ${MEMCACHED_NAME} ${MEMCACHED_TAR} memcached
-	rm -rf *.bc *slash* *manifest
+	rm -rf ${MEMCACHED_NAME} ${MEMCACHED_TAR} 
+	rm -rf ./slash
+	rm -rf *manifest
 	rm -rf ${OUT_DIR}
+	rm -rf memcached_slashed
+	rm -rf memcached_slashed_stripped
+
+realclean: clean
+	rm -rf *.bc memcached
