@@ -48,7 +48,6 @@ ${AIRCRACK-NG_BITCODE}: ${AIRCRACK-NG_NAME}
 	${OPT_NAME} ${CFLAGS} src/${AIRCRACK-NG_BITCODE} -o src/${AIRCRACK-NG_BITCODE} && \
 	mv src/${AIRCRACK-NG_BITCODE} ../ 
 
-		
 ${OUT_DIR}:
 	mkdir -p ${OUT_DIR}
 
@@ -74,6 +73,10 @@ ${HELPER_SCRIPT}:
 
 
 clean:
+	rm -Rf ${OUT_DIR}
+	rm -rf *manifest
+	rm -rf aircrack-ng_slashed
 	rm -rf ${AIRCRACK-NG_NAME} ${AIRCRACK-NG_TAR}
-	rm -rf *manifest *.bc *slash*
-	rm -rf ${OUT_DIR}
+
+realclean: clean
+	rm -rf *.bc
