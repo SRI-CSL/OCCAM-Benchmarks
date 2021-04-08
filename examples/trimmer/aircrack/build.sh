@@ -101,7 +101,7 @@ then
     echo "Linking aircrack-ng.bc with libc.a.bc."
     llvm-link aircrack-ng.bc ${MUSLLVM_DIR}/libc.a.bc -o aircrack-ng-with-musllvm.bc
     cat > ${MANIFEST} <<EOF    
-{ "binary": "aircrack-ng_fin"
+{ "binary": "aircrack-ng_occamized"
 , "native_libs": ["${MUSLLVM_DIR}/libc.a"]
 , "name": "aircrack-ng"
 , "static_args": ["-w", "password.lst","wpa.cap"]
@@ -112,7 +112,7 @@ then
 EOF
 else
     cat > ${MANIFEST} <<EOF    
-{ "binary": "aircrack-ng_fin"
+{ "binary": "aircrack-ng_occamized"
 , "native_libs": []
 , "name": "aircrack-ng"
 , "static_args": ["-w", "password.lst","wpa.cap"]
@@ -139,8 +139,8 @@ slash ${SLASH_OPTS} --work-dir=slash ${MANIFEST}
 status=$?
 if [ $status -eq 0 ]
 then
-    cp slash/aircrack-ng_fin aircrack-ng_slashed
-    strip slash/aircrack-ng_fin -o slash/aircrack-ng_fin_stripped
+    cp slash/aircrack-ng_occamized ./
+    strip aircrack-ng_occamized -o aircrack-ng_occamized_stripped
 else
     echo "Something failed while running slash"
 fi    

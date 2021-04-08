@@ -100,7 +100,7 @@ MANIFEST=gzip.manifest
 if [ $USE_DYN_ARGS == "true" ];
 then
 cat > ${MANIFEST} <<EOF    
-{"binary": "gzip_fin", 
+{"binary": "gzip_occamized", 
 "native_libs": [], 
 "name": "gzip", 
 "static_args": ["--force",  "--quiet"], 
@@ -112,7 +112,7 @@ EOF
 else
 EXAMPLE=`realpath huffman.c`    
 cat > ${MANIFEST} <<EOF    
-{"binary": "gzip_fin", 
+{"binary": "gzip_occamized", 
 "native_libs": [], 
 "name": "gzip", 
 "static_args": ["--force",  "--quiet",  "$EXAMPLE"], 
@@ -139,8 +139,9 @@ slash ${SLASH_OPTS} --work-dir=slash ${MANIFEST}
 status=$?
 if [ $status -eq 0 ]
 then
-    cp slash/gzip_fin gzip_slashed
-    strip slash/gzip_fin -o slash/gzip_fin_stripped
+    cp slash/gzip_occamized ./
+    cp gzip-1.3.12/gzip ./gzip_orig
+    strip gzip_occamized -o gzip_occamized_stripped
 else
     echo "Something failed while running slash"
 fi    

@@ -51,11 +51,6 @@ test_compress:
 	fi
 
 
-
-	
-
-	
-
 decompress: ${OUT_DIR} ${BZIP_BITCODE}
 	cp ${BZIP_BITCODE} ${OUT_DIR}
 	cd ${OUT_DIR} && \
@@ -101,7 +96,7 @@ ${BZIP_BITCODE}: ${BZIP_NAME}
 	./bzip2 -fkqs huffman.c && \
 	mv huffman.c.bz2 ../huffman_unspecialized.c.bz2 && \
 	mv ${BZIP_BITCODE} ../
-		
+
 ${OUT_DIR}:
 	mkdir -p ${OUT_DIR}
 
@@ -114,6 +109,6 @@ ${HELPER_SCRIPT}:
 
 clean:
 	rm -rf ${BZIP_NAME} ${BZIP_TAR} bzip2
-	rm -rf *.bc *slash* *manifest *fin*
+	rm -rf *.bc *slash* *manifest *occamized*
 	rm -rf huffman_unspecialized.c.bz2 huffman.c
 	rm -rf ${OUT_DIR}

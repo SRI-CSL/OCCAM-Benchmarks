@@ -97,7 +97,7 @@ MANIFEST=yices.manifest
 if [ $USE_DYN_ARGS == "true" ];
 then
 cat > ${MANIFEST} <<EOF    
-{"binary": "yices_slashed",
+{"binary": "yices_occamized",
  "native_libs":[],
  "name": "yices_main",
  "modules": [],
@@ -110,7 +110,7 @@ EOF
 else
 EXAMPLE=`realpath ./yices-2.6.1/examples/bool_eqs.ys`
 cat > ${MANIFEST} <<EOF    
-{"binary": "yices_slashed",
+{"binary": "yices_occamized",
  "native_libs":[],
  "name": "yices_main",
  "modules": [],
@@ -136,7 +136,9 @@ slash ${SLASH_OPTS} --work-dir=slash ${MANIFEST}
 status=$?
 if [ $status -eq 0 ]
 then
-    cp ./slash/yices_slashed ./yices_slashed
+    cp ./slash/yices_occamized ./
+    cp yices-2.6.1/build/x86_64-pc-linux-gnu-release/bin/yices_main ./yices_main_orig
+    strip yices_occamized -o yices_occamized_stripped
 else
     echo "Something failed while running slash"
 fi    

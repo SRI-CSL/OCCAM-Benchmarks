@@ -102,7 +102,7 @@ function dynamic_link() {
     # Build the manifest file
     cat > httpd.manifest <<EOF
 { "main" : "httpd.bc"
-, "binary"  : "httpd_slashed"
+, "binary"  : "httpd_occamized"
 , "modules"    : ["libapr-1.shared.bc", "libaprutil-1.shared.bc", "libpcre.shared.bc","libexpat.shared.bc"]
 , "native_libs" : ["-ldl", "-lpthread"]
 , "static_args"    : ["-d", "/vagrant/www"]
@@ -124,7 +124,8 @@ EOF
 	echo "Something failed while running slash"
 	exit 1
     fi
-    cp slash/httpd_slashed .
+    cp slash/httpd_occamized .
+    cp install/httpd-2.4.39/bin/httpd ./httpd_orig
  }
 
 # OCCAM with program and libraries statically linked
@@ -136,7 +137,7 @@ function static_link() {
     # Build the manifest file
     cat > combined_httpd.manifest <<EOF
 { "main" : "combined_httpd.bc"
-, "binary"  : "httpd_static_combined_slashed"
+, "binary"  : "httpd_static_combined_occamized"
 , "modules"    : []
 , "native_libs" : ["-ldl", "-lpthread"]
 , "static_args"    : ["-d", "/vagrant/www"]
@@ -161,7 +162,7 @@ EOF
 	echo "Something failed while running slash"
 	exit 1
     fi
-    cp combined_slash/httpd_static_combined_slashed .
+    cp combined_slash/httpd_static_combined_occamized .
 }
 
 if [ "${LINK}" == "dynamic" ]; then

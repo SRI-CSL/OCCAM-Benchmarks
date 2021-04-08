@@ -90,7 +90,7 @@ ssh.json: ${OPENSSH_INSTALL}/bin/ssh
 clean:
 	rm -f ${BITCODE} libz.a.bc libssl.a.bc libcrypto.a.bc
 	rm -f linked_ssh.bc linked_ssh.manifest
-	rm -f ssh.manifest ssh_from bc ssh_static_slashed sshd_from_bc
+	rm -f ssh.manifest ssh_from bc ssh_occamized ssh_static_occamized sshd_from_bc
 	make -C ${OPENSSH} clean
 	make -C . -f Makefile_openssl clean
 	make -C . -f Makefile_zlib clean

@@ -93,19 +93,19 @@ done
 MANIFEST=memcached.manifest
 
 ### statically linked memcached.bc and libevent.bc
-# cat > ${MANIFEST} <<EOF    
-# {"binary": "memcached_fin", 
-# "native_libs": [], 
-# "name": "memcached", 
-# "static_args": ["-m","64","-l","127.0.0.1","-u","root"], 
-# "modules": [], 
-# "ldflags": ["-lpthread","-O3"], 
-# "main": "memcached_with_libevent.bc"}
-# EOF
+cat > ${MANIFEST} <<EOF    
+{"binary": "memcached_occamized", 
+"native_libs": [], 
+"name": "memcached", 
+"static_args": ["-m","64","-l","127.0.0.1","-u","root"], 
+"modules": [], 
+"ldflags": ["-lpthread","-O3"], 
+"main": "memcached_with_libevent.bc"}
+EOF
 
 ### memcached.bc and libevent.bc as dynamic library
 # cat > ${MANIFEST} <<EOF    
-# {"binary": "memcached_fin", 
+# {"binary": "memcached_occamized", 
 # "native_libs": [], 
 # "name": "memcached", 
 # "static_args": ["-m","64","-l","127.0.0.1","-u","root"], 
@@ -115,15 +115,15 @@ MANIFEST=memcached.manifest
 # EOF
 
 ### Only memcached.bc
-cat > ${MANIFEST} <<EOF    
-{"binary": "memcached_fin", 
-"native_libs": [], 
-"name": "memcached", 
-"static_args": ["-m","64","-l","127.0.0.1","-u","root"], 
-"modules": [], 
-"ldflags": ["-levent","-lpthread","-O3"], 
-"main": "memcached.bc"}
-EOF
+# cat > ${MANIFEST} <<EOF    
+# {"binary": "memcached_occamized", 
+# "native_libs": [], 
+# "name": "memcached", 
+# "static_args": ["-m","64","-l","127.0.0.1","-u","root"], 
+# "modules": [], 
+# "ldflags": ["-levent","-lpthread","-O3"], 
+# "main": "memcached.bc"}
+# EOF
 
     
 
@@ -142,8 +142,8 @@ slash ${SLASH_OPTS} --work-dir=slash ${MANIFEST}
 status=$?
 if [ $status -eq 0 ]
 then
-    cp slash/memcached_fin memcached_slashed
-    strip memcached_slashed -o memcached_slashed_stripped
+    cp slash/memcached_occamized ./
+    strip memcached_occamized -o memcached_occamized_stripped
 else
     echo "Something failed while running slash"
 fi    

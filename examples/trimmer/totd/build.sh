@@ -4,7 +4,7 @@
 set -e
 
 function usage() {
-    echo "Usage: $0 [--with-musllvm] [--disable-inlining] [--ipdse] [--use-crabopt] [--use-pointer-analysis] [--inter-spec VAL] [--intra-spec VAL] [--enable-config-prime] [--help]"
+    echo "Usage: $0 [--with-musllvm] [--disable-inlining] [--ipdse] [--use-crabopt] [--use-pointer-analysis] [--inter-spec VAL] [--intra-spec VAL] [--enable-config-prime] [--use-dynamic-args] [--help]"
     echo "       VAL=none|aggressive|nonrec-aggressive|onlyonce"
 }
 
@@ -13,6 +13,7 @@ INTER_SPEC="none"
 INTRA_SPEC="onlyonce"
 USE_MUSLLVM="false"
 OPT_OPTIONS=""
+USE_DYN_ARGS="false"
 
 POSITIONAL=()
 while [[ $# -gt 0 ]]
@@ -40,7 +41,11 @@ case $key in
     -with-musllvm|--with-musllvm)
 	USE_MUSLLVM="true" 
 	shift # past argument
-	;;            
+	;;
+    -use-dynamic-args|--use-dynamic-args)
+	USE_DYN_ARGS="true" 
+	shift # past argument
+	;;                
     -ipdse|--ipdse)
 	OPT_OPTIONS="${OPT_OPTIONS} --ipdse"
 	shift # past argument
@@ -91,10 +96,22 @@ done
 
 
 MANIFEST=totd.manifest
-CONF=`realpath totdipv4.conf`
 
+if [ $USE_DYN_ARGS == "true" ];
+then
 cat > ${MANIFEST} <<EOF    
-{"binary": "totd_fin", 
+{"binary": "totd_occamized", 
+"native_libs": [], 
+"name": "totd", 
+"static_args": ["-c", "-d2"],
+"modules": [], 
+"ldflags": ["-O3"], 
+"main": "totd.bc"}
+EOF
+else
+CONF=`realpath totdipv4.conf`    
+cat > ${MANIFEST} <<EOF    
+{"binary": "totd_occamized", 
 "native_libs": [], 
 "name": "totd", 
 "static_args": ["-c", "$CONF", "-d2"],
@@ -102,7 +119,7 @@ cat > ${MANIFEST} <<EOF
 "ldflags": ["-O3"], 
 "main": "totd.bc"}
 EOF
-
+fi
     
 
 export OCCAM_LOGLEVEL=INFO
@@ -120,8 +137,8 @@ slash ${SLASH_OPTS} --work-dir=slash ${MANIFEST}
 status=$?
 if [ $status -eq 0 ]
 then
-    cp slash/totd_fin totd_slashed
-    strip totd_slashed -o totd_slashed_stripped
+    cp slash/totd_occamized ./
+    strip totd_occamized -o totd_occamized_stripped
 else
     echo "Something failed while running slash"
 fi    

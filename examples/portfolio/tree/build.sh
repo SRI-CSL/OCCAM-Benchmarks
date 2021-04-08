@@ -96,7 +96,7 @@ if [ $USE_MUSLLVM == "true" ];
 then
     cat > ${MANIFEST} <<EOF    
 { "main" : "tree.bc"
-, "binary"  : "tree"
+, "binary"  : "tree_occamized"
 , "modules"    : ["libc.a.bc"]
 , "native_libs" : ["libc.a"]
 , "ldflags" : [ "-O2" ]
@@ -109,7 +109,7 @@ EOF
 else
     cat > ${MANIFEST} <<EOF    
 { "main" : "tree.bc"
-, "binary"  : "tree"
+, "binary"  : "tree_occamized"
 , "modules"    : []
 , "native_libs" : []
 , "ldflags" : [ "-O2" ]
@@ -139,7 +139,8 @@ slash ${SLASH_OPTS} --work-dir=slash ${MANIFEST}
 status=$?
 if [ $status -eq 0 ]
 then
-    cp slash/tree tree_slashed
+    cp slash/tree_occamized ./
+    cp tree-1.7.0/tree ./tree_orig
 else
     echo "Something failed while running slash"
 fi    

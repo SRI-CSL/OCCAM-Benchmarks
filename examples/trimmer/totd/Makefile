@@ -39,7 +39,7 @@ ${TOTD_BITCODE}: ${TOTD_NAME}
 	CC=${BITCODE_WRAPPER} make && \
 	${BITCODE_EXTRACT} ${TOTD} && \
 	mv ${TOTD_BITCODE} ../
-		
+
 ${OUT_DIR}:
 	mkdir -p ${OUT_DIR}
 

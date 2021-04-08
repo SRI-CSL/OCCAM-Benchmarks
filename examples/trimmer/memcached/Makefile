@@ -57,8 +57,8 @@ clean:
 	rm -rf ./slash
 	rm -rf *manifest
 	rm -rf ${OUT_DIR}
-	rm -rf memcached_slashed
-	rm -rf memcached_slashed_stripped
+	rm -rf memcached_occamized
+	rm -rf memcached_occamized_stripped
 
 realclean: clean
 	rm -rf *.bc memcached

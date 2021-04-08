@@ -103,12 +103,12 @@ function dynamic_link() {
     export OCCAM_LOGLEVEL=INFO
     export OCCAM_LOGFILE=${PWD}/slash/occam.log
 
-    rm -rf slash ssh_slashed
+    rm -rf slash ssh_occamized
 
     # Build the manifest file
     cat > ssh.manifest <<EOF
 { "main" : "ssh.bc"
-, "binary"  : "ssh_slashed"
+, "binary"  : "ssh_occamized"
 , "modules"    : ["libcrypto.a.bc", "libz.a.bc"]
 , "native_libs" : ["-ldl", "-lresolv"]
 , "name"    : "ssh"
@@ -128,7 +128,7 @@ EOF
 	echo "Something failed while running slash"
 	exit 1
     fi     
-    cp ./slash/ssh_slashed .
+    cp ./slash/ssh_occamized .
 }
 
 # OCCAM with program and libraries statically linked
@@ -137,7 +137,7 @@ function static_link() {
     # Build the manifest file
     cat > linked_ssh.manifest <<EOF
 { "main" : "linked_ssh.bc"
-, "binary"  : "ssh_static_slashed"
+, "binary"  : "ssh_static_occamized"
 , "modules"    : []
 , "native_libs" : ["-ldl", "-lresolv"]
 , "name"    : "ssh"
@@ -157,7 +157,7 @@ EOF
 	echo "Something failed while running slash"
 	exit 1
     fi     
-    cp ./slash/ssh_static_slashed .
+    cp ./slash/ssh_static_occamized .
 }
 
 if [ "${LINK}" == "dynamic" ]; then

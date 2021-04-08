@@ -96,7 +96,7 @@ function dynamic_link() {
     # Build the manifest file
     cat > njs.manifest <<EOF
 { "main" : "njs.bc"
-, "binary"  : "njs_slashed"
+, "binary"  : "njs_occamized"
 , "modules"    : ["libnjs.a.bc"]
 , "native_libs" : ["-lpcre", "-lreadline"]
 , "static_args"    : ["-d", "hello_world.njs"]
@@ -116,7 +116,7 @@ EOF
 	echo "Something failed while running slash"
 	exit 1
     fi     
-    cp slash/njs_slashed .
+    cp slash/njs_occamized .
  }
 
 # OCCAM with program and libraries statically linked
@@ -126,7 +126,7 @@ function static_link() {
     # Build the manifest file
     cat > linked_njs.manifest <<EOF
 { "main" : "linked_njs.bc"
-, "binary"  : "njs_static_linked_slashed"
+, "binary"  : "njs_static_linked_occamized"
 , "modules"    : []
 , "native_libs" : ["-lpcre", "-lreadline"]
 , "static_args"    : ["-d", "hello_world.njs"]
@@ -148,7 +148,7 @@ EOF
 	echo "Something failed while running slash"
 	exit 1
     fi
-    cp linked_slash/njs_static_linked_slashed .
+    cp linked_slash/njs_static_linked_occamized .
 }
 
 if [ "${LINK}" == "dynamic" ]; then

@@ -4,7 +4,7 @@
 set -e
 
 function usage() {
-    echo "Usage: $0 [--disable-inlining] [--ipdse] [--use-crabopt] [--use-pointer-analysis] [--inter-spec VAL] [--intra-spec VAL] [--help]"
+    echo "Usage: $0 [--disable-inlining] [--ipdse] [--use-crabopt] [--use-pointer-analysis] [--inter-spec VAL] [--intra-spec VAL] [--enable-config-prime] [--help]"
     echo "       VAL=none|aggressive|nonrec-aggressive|onlyonce"
 }
 
@@ -32,6 +32,10 @@ case $key in
 	OPT_OPTIONS="${OPT_OPTIONS} --disable-inlining"
 	shift # past argument
 	;;
+    -enable-config-prime|--enable-config-prime)
+	OPT_OPTIONS="${OPT_OPTIONS} --enable-config-prime"
+	shift # past argument
+	;;    
     -ipdse|--ipdse)
 	OPT_OPTIONS="${OPT_OPTIONS} --ipdse"
 	shift # past argument
@@ -73,11 +77,10 @@ done
 MANIFEST=imagemagick.manifest
 cat > ${MANIFEST} <<EOF
 { "main" : "magick.bc"
-, "binary"  : "magick"
+, "binary"  : "magick_occamized"
 , "modules"    : ["./libMagickCore.bc", "./libMagickWand.bc"]
 , "native_libs" : ["./crt1.o", "./libc.a" ]
 , "ldflags" : [ "-O2", "-static", "-nostdlib"]
-
 , "name"    : "magick"
 , "static_args" : ["convert"]
 , "dynamic_args" : "4"
@@ -96,11 +99,12 @@ echo "Running magick with libMagickCore, libMagickWand, and libc libraries   "
 echo "slash options ${SLASH_OPTS}"
 echo "======================================================================="
 slash ${SLASH_OPTS} --work-dir=slash ${MANIFEST}
+
 status=$?
 if [ $status -eq 0 ]
 then
-    ## runbench needs _orig and _slashed versions
-    cp ${SLASH_DIR}/magick ${WORKDIR}/magick_slashed_libc
+    ## runbench (if gadgets enabled) needs _orig and _slashed versions
+    cp ${SLASH_DIR}/magick_occamized ${WORKDIR}/magick_occamized
     cp ./${PREFIX}/bin/magick ${WORKDIR}/magick_orig
 else
     echo "Something failed while running slash"

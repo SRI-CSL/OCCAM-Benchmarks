@@ -90,17 +90,17 @@ SLASH_OPTS="--inter-spec-policy=${INTER_SPEC} --intra-spec-policy=${INTRA_SPEC} 
 function dynamic_link() {
 
     export OCCAM_LOGLEVEL=INFO
-    export OCCAM_LOGFILE=${PWD}/slash_specialized/occam.log
+    export OCCAM_LOGFILE=${PWD}/slash/occam.log
 
-    rm -rf slash_specialized curl_slashed
+    rm -rf slash 
 
     # Build the manifest file
     cat > curl.manifest.specialized <<EOF
 { "main" : "curl.bc"
-, "binary"  : "curl"
+, "binary"  : "curl_occamized"
 , "modules"    : [ "${LIBCURL}" ]
 , "native_libs" : [ ]
-, "ldflags" : [ "-O2", "-lpthread", "-lz", "-lcrypto", "-lssl" ]
+, "ldflags" : [ "-O2", "-lpthread", "-lz", "-lcrypto", "-lssl"]
 , "name"    : "curl"
 , "static_args" : ["--compressed", "--http1.1", "--ipv4"]
 , "dynamic_args" : "1"
@@ -111,16 +111,18 @@ EOF
     echo "Running httpd with dynamic libraries "
     echo "slash options ${SLASH_OPTS}"
     echo "============================================================"
-    slash ${SLASH_OPTS} --work-dir=slash_specialized \
-	  --amalgamate=slash_specialized/amalgamation.bc \
-	  curl.manifest.specialized
+    slash ${SLASH_OPTS} --work-dir=slash \
+     	  --amalgamate=slash/amalgamation.bc \
+     	  curl.manifest.specialized
+    
     status=$?
     if [ $status -ne 0 ]
     then
 	echo "Something failed while running slash"
 	exit 1
     fi     
-    cp ./slash_specialized/curl_slashed .
+    cp ./slash/curl_occamized .
+    cp ./install/bin/curl ./curl_orig
 }
 
 dynamic_link

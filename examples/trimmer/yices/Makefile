@@ -29,8 +29,8 @@ ${YICES_NAME}:
 
 clean:
 	rm *.bc
-	rm -f yices_main_fin
 	rm yices.manifest
+	rm -f yices_occamized yices_occamized_stripped
 	rm -f ${YICES_TAR}
 
 realclean: clean

@@ -248,7 +248,7 @@ def run_ropgadget(dirname, execname, workdir, cpu, mem):
     errfd = open(os.path.join(workdir, errfile), "w")
 
     prog_before = os.path.join(dirname, benchname + "_orig")
-    prog_after = os.path.join(dirname, benchname + "_slashed")
+    prog_after = os.path.join(dirname, benchname + "_occamized")
 
     total_before, total_after = None, None
     rop_before, rop_after = None, None    

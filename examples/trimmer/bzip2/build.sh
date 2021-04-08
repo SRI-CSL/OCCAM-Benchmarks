@@ -100,7 +100,7 @@ MANIFEST=bzip2.manifest
 if [ $USE_DYN_ARGS == "true" ];
 then
 cat > ${MANIFEST} <<EOF    
-{"binary": "bzip2_fin", 
+{"binary": "bzip2_occamized", 
 "native_libs": [], 
 "name": "bzip2", 
 "static_args": ["-fkqsz"], 
@@ -113,7 +113,7 @@ EOF
 else
 EXAMPLE=`realpath huffman.c`
 cat > ${MANIFEST} <<EOF    
-{"binary": "bzip2_fin", 
+{"binary": "bzip2_occamized", 
 "native_libs": [], 
 "name": "bzip2", 
 "static_args": ["-fkqsz", "$EXAMPLE"], 
@@ -140,9 +140,8 @@ slash ${SLASH_OPTS} --work-dir=slash ${MANIFEST}
 status=$?
 if [ $status -eq 0 ]
 then
-    cp slash/bzip2_fin bzip2_slashed
-    strip slash/bzip2_fin -o slash/bzip2_fin_stripped
-    cp slash/bzip2_fin_stripped .
+    cp slash/bzip2_occamized ./
+    strip bzip2_occamized -o bzip2_occamized_stripped
 else
     echo "Something failed while running slash"
 fi    

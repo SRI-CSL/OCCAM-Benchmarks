@@ -75,7 +75,7 @@ ${HELPER_SCRIPT}:
 clean:
 	rm -Rf ${OUT_DIR}
 	rm -rf *manifest
-	rm -rf aircrack-ng_slashed
+	rm -rf aircrack-ng_occamized
 	rm -rf ${AIRCRACK-NG_NAME} ${AIRCRACK-NG_TAR}
 
 realclean: clean

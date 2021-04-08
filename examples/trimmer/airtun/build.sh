@@ -93,7 +93,7 @@ done
 MANIFEST=airtun-ng.manifest
 
 cat > ${MANIFEST} <<EOF    
-{"binary": "airtun-ng_fin", 
+{"binary": "airtun-ng_occamized", 
 "native_libs": [], 
 "name": "airtun-ng", 
 "static_args": ["-a", "00:0c:29:52:aa:56","-w","1234567890","eth0"], 
@@ -119,8 +119,8 @@ slash ${SLASH_OPTS} --work-dir=slash ${MANIFEST}
 status=$?
 if [ $status -eq 0 ]
 then
-    cp slash/airtun-ng_fin airtun-ng_slashed
-    strip airtun-ng_slashed -o airtun-ng_slashed_stripped
+    cp slash/airtun-ng_occamized ./
+    strip airtun-ng_occamized -o airtun-ng_occamized_stripped
 else
     echo "Something failed while running slash"
 fi    

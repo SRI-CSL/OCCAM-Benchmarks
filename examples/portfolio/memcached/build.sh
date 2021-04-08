@@ -95,7 +95,7 @@ if [ $USE_MUSLLVM == "true" ];
 then
     cat > ${MANIFEST} <<EOF
 { "main" : "memcached.bc"
-, "binary"  : "memcached"
+, "binary"  : "memcached_occamized"
 , "modules"    : ["libevent.a.bc","libc.a.bc"]
 , "native_libs" : ["libc.a"]
 , "ldflags" : [ "-O2", "-lpthread"]
@@ -106,7 +106,7 @@ EOF
 else 
     cat > ${MANIFEST} <<EOF
 { "main" : "memcached.bc"
-, "binary"  : "memcached"
+, "binary"  : "memcached_occamized"
 , "modules"    : ["libevent.a.bc"]
 , "native_libs" : ["-lpthread"  ]
 , "ldflags" : [ "-O2" ]
@@ -135,8 +135,8 @@ slash ${SLASH_OPTS} --work-dir=slash ${MANIFEST}
 status=$?
 if [ $status -eq 0 ]
 then
-    ## runbench needs _orig and _slashed versions
-    cp slash/memcached memcached_slashed
+    ## runbench (if gadgets enabled) needs _orig and _slashed versions
+    cp slash/memcached_occamized ./
     cp install/memcached/bin/memcached memcached_orig
 else
     echo "Something failed while running slash"

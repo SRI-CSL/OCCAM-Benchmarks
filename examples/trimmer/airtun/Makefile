@@ -49,7 +49,6 @@ ${AIRCRACK-NG_BITCODE}: ${AIRCRACK-NG_NAME}
 	${OPT_NAME} ${CFLAGS} src/${AIRTUN-NG_BITCODE} -o src/${AIRTUN-NG_BITCODE} && \
 	mv src/${AIRTUN-NG_BITCODE} ../
 
-		
 ${OUT_DIR}:
 	mkdir -p ${OUT_DIR}
 

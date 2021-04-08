@@ -52,9 +52,6 @@ test_compress:
 		echo "\tgzip test baseline compare? Failed!"; \
 	fi
 
-	
-
-	
 .PHONY: ${GZIP_BITCODE}
 ${GZIP_BITCODE}: ${GZIP_NAME} 
 	cp helper_huffman.c huffman.c && \
@@ -66,8 +63,8 @@ ${GZIP_BITCODE}: ${GZIP_NAME}
 	${BITCODE_EXTRACT} ${GZIP} && \
 	mv ${GZIP_BITCODE} ../  && \
 	${GZIP} --keep --force --quiet ../huffman.c
-	mv huffman.c.gz huffman_unspecialized.c.gz	
-		
+	mv huffman.c.gz huffman_unspecialized.c.gz
+
 ${OUT_DIR}:
 	mkdir -p ${OUT_DIR}
 
