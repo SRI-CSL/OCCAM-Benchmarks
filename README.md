@@ -1,3 +1,14 @@
+## Building Benchmarks ##
+
+1. OCCAM needs to generate bitcode from the source code.
+This might not be easy and different platforms might require different workarounds. 
+
+2. OCCAM links the debloated bitcode with other debloated libraries and extra native libraries indicated in the `native_libs` field from the Manifest.
+Missing a native library or adding a native library that is not installed will make the whole process to fail. 
+
+The directory `portfolio` and `trimmer` are mostly tested on an Ubuntu 18.04 machine. 
+But you need to make sure that all libraries passed in the Manifest as `native_libs` are installed in your machine.
+
 # Benchmark runner for [OCCAM](https://github.com/SRI-CSL/OCCAM) #
 
 To run OCCAM on a set of benchmarks and show metrics, type:
