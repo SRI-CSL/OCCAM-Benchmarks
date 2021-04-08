@@ -120,6 +120,7 @@ status=$?
 if [ $status -eq 0 ]
 then
     cp slash/airtun-ng_occamized ./
+    cp aircrack-ng-1.1/src/airtun-ng ./airtun-ng-orig
     strip airtun-ng_occamized -o airtun-ng_occamized_stripped
 else
     echo "Something failed while running slash"

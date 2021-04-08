@@ -138,6 +138,7 @@ status=$?
 if [ $status -eq 0 ]
 then
     cp slash/totd_occamized ./
+    cp totd-1.5.3/totd ./totd-orig
     strip totd_occamized -o totd_occamized_stripped
 else
     echo "Something failed while running slash"

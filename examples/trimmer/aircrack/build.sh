@@ -140,6 +140,7 @@ status=$?
 if [ $status -eq 0 ]
 then
     cp slash/aircrack-ng_occamized ./
+    cp aircrack-ng-1.1/src/aircrack-ng ./aircrack-ng-orig
     strip aircrack-ng_occamized -o aircrack-ng_occamized_stripped
 else
     echo "Something failed while running slash"

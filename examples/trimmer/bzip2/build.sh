@@ -141,6 +141,7 @@ status=$?
 if [ $status -eq 0 ]
 then
     cp slash/bzip2_occamized ./
+    cp bzip2-1.0.5/bzip2 ./bzip2-orig
     strip bzip2_occamized -o bzip2_occamized_stripped
 else
     echo "Something failed while running slash"
