@@ -1,4 +1,4 @@
-## Building Benchmarks ##
+# Important Notes #
 
 1. OCCAM needs to generate bitcode from the source code.
 This might not be easy and different platforms might require different workarounds. 
