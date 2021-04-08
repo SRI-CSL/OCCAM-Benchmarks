@@ -100,7 +100,7 @@ function dynamic_link() {
 , "binary"  : "curl_occamized"
 , "modules"    : [ "${LIBCURL}" ]
 , "native_libs" : [ ]
-, "ldflags" : [ "-O2", "-lpthread", "-lz", "-lcrypto", "-lssl"]
+, "ldflags" : [ "-O2", "-lpthread", "-lz", "-lcrypto", "-lssl", "-lidn2"]
 , "name"    : "curl"
 , "static_args" : ["--compressed", "--http1.1", "--ipv4"]
 , "dynamic_args" : "1"
