@@ -4,7 +4,7 @@
 set -e
 
 function usage() {
-    echo "Usage: $0 [--with-musllvm] [--disable-inlining] [--ipdse] [--use-crabopt] [--use-pointer-analysis] [--inter-spec VAL] [--intra-spec VAL] [--enable-config-prime] [--use-dyn-args] [--help]"
+    echo "Usage: $0 [--with-musllvm] [--disable-inlining] [--ipdse] [--use-crabopt] [--use-pointer-analysis] [--inter-spec VAL] [--intra-spec VAL] [--enable-config-prime] [--use-dynamic-args] [--help]"
     echo "       VAL=none|aggressive|nonrec-aggressive|onlyonce"
 }
 
@@ -13,7 +13,7 @@ function manifest_static_with_musllvm() {
     SAMPLE=$2
     cat <<EOF > ${MANIFEST} 
     { "main" : "readelf.bc"
-    , "binary"  : "readelf"
+    , "binary"  : "readelf_occamized"
     , "modules"    : ["libc.a.bc"]
     , "native_libs" : [ "/usr/lib/libiconv.dylib", "libc.a" ]
     , "ldflags" : [ "-O2" ]
@@ -28,10 +28,10 @@ function manifest_static() {
     SAMPLE=$2    
     cat <<EOF > ${MANIFEST} 
     { "main" : "readelf.bc"
-    , "binary"  : "readelf"
+    , "binary"  : "readelf_occamized"
     , "modules"    : []
     , "native_libs" : [ "/usr/lib/libiconv.dylib" ]
-    , "ldflags" : [ "-O2" ]
+    , "ldflags" : [ "-O2", "-lz" ]
     , "name"    : "readelf"
     , "static_args" : ["-s","$SAMPLE"]
     }
@@ -42,7 +42,7 @@ function manifest_dynamic_with_musllvm() {
     MANIFEST=$1
     cat > ${MANIFEST} <<EOF    
     { "main" : "readelf.bc"
-    , "binary"  : "readelf"
+    , "binary"  : "readelf_occamized"
     , "modules"    : ["libc.a.bc"]
     , "native_libs" : [ "/usr/lib/libiconv.dylib", "libc.a" ]
     , "ldflags" : [ "-O2" ]
@@ -57,10 +57,10 @@ function manifest_dynamic() {
     MANIFEST=$1
     cat > ${MANIFEST} <<EOF    
     { "main" : "readelf.bc"
-    , "binary"  : "readelf"
+    , "binary"  : "readelf_occamized"
     , "modules"    : []
     , "native_libs" : [ "/usr/lib/libiconv.dylib" ]
-    , "ldflags" : [ "-O2" ]
+    , "ldflags" : [ "-O2", "-lz" ]
     , "name"    : "readelf"
     , "static_args" : ["-s"]
     , "dynamic_args" : "1"
@@ -191,8 +191,8 @@ status=$?
 if [ $status -eq 0 ]
 then
     ## runbench needs _orig and _slashed versions
-    cp slash/readelf readelf_slashed
-    cp binutils/binutils/readelf readelf_orig
+    cp slash/readelf_occamized ./
+    cp binutils-install/bin/readelf ./readelf_orig
 else
     echo "Something failed while running slash"
 fi    
