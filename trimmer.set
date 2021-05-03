@@ -74,6 +74,31 @@
             "dirname" : "examples/trimmer/dnsproxy",
             "execname": "dnsproxy",
             "enabled" : "false"
-        }
+        },
+        {
+            "dirname" : "examples/trimmer/httping",
+            "execname": "httping",
+            "enabled" : "false"
+        },
+        {
+            "dirname" : "examples/trimmer/knockd",
+            "execname": "knockd",
+            "enabled" : "false"
+        },
+        {
+            "dirname" : "examples/trimmer/gprof",
+            "execname": "gprof",
+            "enabled" : "false"
+        },
+        {
+            "dirname" : "examples/trimmer/curl",
+            "execname": "curl",
+            "enabled" : "false"
+        },
+        {
+            "dirname" : "examples/trimmer/yices",
+            "execname": "yices",
+            "enabled" : "false"
+        },
     ]
 }

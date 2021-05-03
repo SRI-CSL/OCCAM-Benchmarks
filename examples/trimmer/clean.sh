@@ -4,10 +4,6 @@ cd /OCCAM-Benchmarks/examples/trimmer/airtun
 make clean
 cd /OCCAM-Benchmarks/examples/trimmer/bzip2
 make clean
-cd /OCCAM-Benchmarks/examples/trimmer/clean
-make clean
-cd /OCCAM-Benchmarks/examples/trimmer/clean.sh
-make clean
 cd /OCCAM-Benchmarks/examples/trimmer/dnsproxy
 make clean
 cd /OCCAM-Benchmarks/examples/trimmer/gzip
@@ -31,4 +27,16 @@ make clean
 cd /OCCAM-Benchmarks/examples/trimmer/totd
 make clean
 cd /OCCAM-Benchmarks/examples/trimmer/wget
+make clean
+cd /OCCAM-Benchmarks/examples/trimmer/gprof
+make clean
+cd /OCCAM-Benchmarks/examples/trimmer/httping
+make clean
+cd /OCCAM-Benchmarks/examples/trimmer/knockd
+make clean
+cd /OCCAM-Benchmarks/examples/trimmer/curl
+make clean
+cd /OCCAM-Benchmarks/examples/trimmer/readlelf
+make clean
+cd /OCCAM-Benchmarks/examples/trimmer/yices
 make clean
