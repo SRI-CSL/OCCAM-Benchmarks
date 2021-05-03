@@ -95,12 +95,13 @@ MANIFEST=memcached.manifest
 ### statically linked memcached.bc and libevent.bc
 cat > ${MANIFEST} <<EOF    
 {"binary": "memcached_occamized", 
-"native_libs": [], 
+"native_libs":[],
 "name": "memcached", 
-"static_args": ["-m","64","-l","127.0.0.1","-u","root"], 
+"static_args": ["-m","-l"],
+"dynamic_args": "2",
 "modules": [], 
-"ldflags": ["-lpthread","-O3"], 
-"main": "memcached_with_libevent.bc"}
+"ldflags": ["-levent","-lpthread","-O3"], 
+"main": "memcached.bc"}
 EOF
 
 ### memcached.bc and libevent.bc as dynamic library

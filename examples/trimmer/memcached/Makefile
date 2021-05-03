@@ -42,6 +42,9 @@ ${MEMCACHED_BITCODE}: ${MEMCACHED_NAME}
 	${OPT_NAME} ${CFLAGS} ${MEMCACHED_BITCODE} -o ${MEMCACHED_BITCODE} && \
 	mv ${MEMCACHED_BITCODE} ../
 
+test:
+	python3 test_mem.py
+
 ${OUT_DIR}:
 	mkdir -p ${OUT_DIR}
 
@@ -54,7 +57,7 @@ ${HELPER_SCRIPT}:
 
 clean:
 	rm -rf ${MEMCACHED_NAME} ${MEMCACHED_TAR} 
-	rm -rf ./slash
+	rm -rf ./slash *.bc
 	rm -rf *manifest
 	rm -rf ${OUT_DIR}
 	rm -rf memcached_occamized

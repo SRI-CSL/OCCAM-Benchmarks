@@ -94,7 +94,7 @@ MANIFEST=dnsproxy.manifest
 CONF_EXAMPLE=`realpath dnsproxy.conf`
 
 cat > ${MANIFEST} <<EOF    
-{"binary": "dnsproxy_fin", 
+{"binary": "dnsproxy_occamized", 
 "native_libs": [], 
 "name": "dnsproxy", 
 "static_args": ["-c", "$CONF_EXAMPLE"], 
@@ -120,8 +120,8 @@ slash ${SLASH_OPTS} --work-dir=slash ${MANIFEST}
 status=$?
 if [ $status -eq 0 ]
 then
-    cp slash/dnsproxy_fin dnsproxy_slashed
-    strip dnsproxy_slashed -o dnsproxy_slashed_stripped
+    cp slash/dnsproxy_occamized dnsproxy_occamized
+    strip dnsproxy_occamized -o dnsproxy_occamized_stripped
 else
     echo "Something failed while running slash"
 fi    

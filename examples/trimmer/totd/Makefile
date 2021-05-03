@@ -32,6 +32,9 @@ ipv4: ${OUT_DIR} ${TOTD_BITCODE}
 	cd ${OUT_DIR} && \echo '{"binary": "totd_fin", "native_libs": [], "name": "totd", "args": ["-c", "totdipv4.conf", "-d2"],"modules": [], "ldflags": [], "main": "totd.bc","config_files":["totdipv4.conf"]}' > ${TOTD_MANIFEST} && \
 	python ${TRIMMER_HOME}/tool/trimmer.py ${TOTD_MANIFEST} ./ no-optimization 2> ${LOG_FILE}
 
+test:
+	python3 test_totd.py
+
 ${TOTD_BITCODE}: ${TOTD_NAME} 
 	cd ${TOTD_NAME} && \
 	sed -i 's/-g -O2/ -Xclang -disable-O0-optnone -O0/g' ./Makefile && \
@@ -52,5 +55,5 @@ ${HELPER_SCRIPT}:
 
 clean:
 	rm -rf ${TOTD_NAME} totd ${TOTD_TAR}
-	rm -rf *.bc *slash* *manifest
+	rm -rf *.bc *slash* *manifest *occamized* totd-orig
 	rm -rf ${OUT_DIR}
