@@ -21,8 +21,6 @@ test:
 	./httping_occamized_stripped https://www.google.com | grep "connected to" | awk '{print $$3, $$9}' > t_out  &
 	${httping_NAME}/${httping} -G -s -c 5 -X -b -B https://www.google.com | grep "connected to" | awk '{print $$3, $$9}' > o_out &
 	@sleep 6
-	@cat t_out
-	@cat o_out
 	@echo "Output comparison to Baseline:"
 	@cmp -s ./t_out o_out; \
 	RETVAL=$$?; \

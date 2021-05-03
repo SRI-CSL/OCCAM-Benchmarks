@@ -24,18 +24,6 @@ CFLAGS = -mem2reg -loops -lcssa -loop-simplify -loop-rotate -indvars
 
 all: ${AIRCRACK-NG_BITCODE}
 
-aircrack: ${OUT_DIR}
-	cp ${AIRCRACK-NG_BITCODE} ${OUT_DIR} && \
-	cd ${OUT_DIR} && \
-	echo '{"binary": "aircrack-ng_fin", "native_libs": [], "name": "aircrack-ng", "args": ["-b", "00:0c:29:52:aa:56","-a","wpa","-s","-w","dictionary.lst","chargen-tcp.pcap"], "modules": [], "ldflags": ["-lssl","-lcrypto","-lpthread","sha1-sse2.S"], "main": "aircrack-ng.bc", "config_files": []}' > ${AIRCRACK-NG_MANIFEST} && \
-	python ${TRIMMER_HOME}/tool/trimmer.py ${AIRCRACK-NG_MANIFEST} ./  2> ${LOG_FILE}
-
-airtun: ${OUT_DIR}
-	cp ${AIRTUN-NG_BITCODE} ${OUT_DIR} && \
-	cd ${OUT_DIR} && \
-	echo '{"binary": "airtun-ng_fin", "native_libs": [], "name": "airtun-ng", "args": ["-a", "00:0c:29:52:aa:56","-w","1234567890","eth0"], "modules": [], "ldflags": ["-lssl","-lcrypto"], "main": "airtun-ng.bc", "config_files": []}' > ${AIRTUN-NG_MANIFEST} && \
-	python ${TRIMMER_HOME}/tool/trimmer.py ${AIRTUN-NG_MANIFEST} ./  2> ${LOG_FILE}
-
 .PHONY: ${AIRTUN-NG_BITCODE}
 ${AIRCRACK-NG_BITCODE}: ${AIRCRACK-NG_NAME} 
 	cp crypto.patch ${AIRCRACK-NG_NAME}/src/ && \

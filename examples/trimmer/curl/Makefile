@@ -26,7 +26,7 @@ ${curl_BITCODE}: ${curl_NAME}
         sudo chmod 777 ../${curl} && \
         ${BITCODE_EXTRACT} ../${curl}
 
-test_curl:
+test:
 	@echo "\t\tTest Curl"
 	
 	./curl_occamized_stripped > t_out && \

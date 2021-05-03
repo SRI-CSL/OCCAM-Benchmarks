@@ -12,7 +12,7 @@ HELPER_SCRIPT=./build.sh
 HELPER_TAR=helper_scripts_and_files.tar.gz
 
 
-OUT_DIR?=trimmer
+OUT_DIR?=slash
 LOG_FILE?=logs
 
 BITCODE_WRAPPER?=gclang
@@ -20,27 +20,23 @@ BITCODE_EXTRACT?=get-bc
 
 all: ${MINI_HTTPD_BITCODE}
 
-mini: ${OUT_DIR} 
-	cp ${MINI_HTTPD_BITCODE} ${OUT_DIR} 
-	cp ${MINI_HTTPD_CONF} ${OUT_DIR}
-	cd ${OUT_DIR} && \echo '{"binary": "mini_httpd_fin", "native_libs": [], "name": "mini_httpd", "args": ["-C", "mini_httpd.conf"], "modules": [], "ldflags": ["-lcrypt"], "main": "mini_httpd.bc", "config_files": ["mini_httpd.conf"]}' > ${MINI_HTTPD_MANIFEST} && \
-	python ${TRIMMER_HOME}/tool/trimmer.py ${MINI_HTTPD_MANIFEST} ./work_dir 2> ${LOG_FILE}
-	mkdir ${OUT_DIR}/work_dir/workdir
-
 test_mini:
 	@echo "\t\tTesting Mini"
 	@cp ${MINI_HTTPD_CONF} ${MINI_HTTPD_NAME}
 	@cd ${MINI_HTTPD_NAME}  && \
-	sed -i 's/8087/8199/g' ${MINI_HTTPD_CONF}
+	sed -i 's/8645/8192/g' ${MINI_HTTPD_CONF}
 	@test -f workdir && echo "workdir already exists" || mkdir workdir 
 	@echo '<HTML><HEAD><TITLE>Index of ./</TITLE></HEAD><BODY BGCOLOR="#99cc99" TEXT="#000000" LINK="#2020ff" VLINK="#4040cc"><H4>Index of ./</H4></HTML>' > workdir/index.html
 
 	${MINI_HTTPD_NAME}/mini_httpd -C ${MINI_HTTPD_NAME}/mini_httpd.conf
-	wget 127.0.0.1:8199/ 
+	wget 127.0.0.1:8192/ 
+	@cp ${MINI_HTTPD_CONF} ${OUT_DIR}/
+	sed -i 's/8192/8649/g' ${MINI_HTTPD_CONF}
 	@cd ${OUT_DIR}/ && \
-	echo '<HTML><HEAD><TITLE>Index of ./</TITLE></HEAD><BODY BGCOLOR="#99cc99" TEXT="#000000" LINK="#2020ff" VLINK="#4040cc"><H4>Index of ./</H4></HTML>' > workdir/index.html && \
-	./mini_httpd_fin  && \
-	wget 127.0.0.1:8087/
+	mkdir workdir
+	echo '<HTML><HEAD><TITLE>Index of ./</TITLE></HEAD><BODY BGCOLOR="#99cc99" TEXT="#000000" LINK="#2020ff" VLINK="#4040cc"><H4>Index of ./</H4></HTML>' > ./workdir/index.html && \
+	./mini_httpd_occamized  && \
+	wget 127.0.0.1:8649/
 	@cmp -s ./index.html ${OUT_DIR}/index.html; \
 	RETVAL=$$?; \
 	if [ $$RETVAL -eq 0 ]; then \
@@ -48,6 +44,9 @@ test_mini:
 	else \
 		echo "\tmini_httpd test baseline compare? Failed!"; \
 	fi
+	@rm -r workdir
+	@rm ../index.html
+	@rm -r ../workdir
 
 
 ${MINI_HTTPD_BITCODE}: ${MINI_HTTPD_NAME} 
@@ -71,7 +70,7 @@ ${HELPER_SCRIPT}:
 
 clean:
 	rm -rf ${MINI_HTTPD_NAME} ${MINI_HTTPD_TAR}
-	rm -rf *.bc mini_httpd *slash* *manifest
+	rm -rf *.bc mini_httpd *slash* *manifest *occamized*
 	rm -rf ${OUT_DIR}
 	rm -rf index.html*
 	rm -rf workdir

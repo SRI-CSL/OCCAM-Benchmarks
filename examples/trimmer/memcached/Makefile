@@ -26,12 +26,6 @@ CFLAGS = -mem2reg -loops -lcssa -loop-simplify -loop-rotate -indvars
 
 all: ${MEMCACHED_BITCODE}
 
-compress: ${OUT_DIR}
-	cp ${MEMCACHED_BITCODE} ${OUT_DIR} && \
-	cd ${OUT_DIR} && \
-	echo '{"binary": "memcached_fin", "native_libs": [], "name": "memcached", "args": ["-m","64","-l","127.0.0.1"], "modules": [], "ldflags": ["-levent","-lpthread"], "main": "memcached.bc", "config_files": []}' > ${MEMCACHED_MANIFEST} && \
-	python ${TRIMMER_HOME}/tool/trimmer.py ${MEMCACHED_MANIFEST} ./  2> ${LOG_FILE}
-
 .PHONY: ${MEMCACHED_BITCODE}
 ${MEMCACHED_BITCODE}: ${MEMCACHED_NAME} 
 	cd ${MEMCACHED_NAME} && \

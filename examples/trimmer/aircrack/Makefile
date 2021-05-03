@@ -1,3 +1,4 @@
+
 AIRCRACK-NG=aircrack-ng
 AIRTUN-NG=airtun-ng
 AIRCRACK-NG_BITCODE=${AIRCRACK-NG}.bc
@@ -47,6 +48,8 @@ ${AIRCRACK-NG_BITCODE}: ${AIRCRACK-NG_NAME}
 	${BITCODE_EXTRACT} src/${AIRCRACK-NG} && \
 	${OPT_NAME} ${CFLAGS} src/${AIRCRACK-NG_BITCODE} -o src/${AIRCRACK-NG_BITCODE} && \
 	mv src/${AIRCRACK-NG_BITCODE} ../ 
+	cp ${AIRCRACK-NG_NAME}/test/password.lst ./ 
+	cp ${AIRCRACK-NG_NAME}/test/wpa.cap ./
 
 ${OUT_DIR}:
 	mkdir -p ${OUT_DIR}
@@ -55,13 +58,11 @@ ${AIRCRACK-NG_NAME}:
 	wget https://github.com/shoaibCS/TRIMMER-applications/raw/master/trimmer/aircrack/aircrack-ng-1.1.tar.gz 
 	tar -xvf ./${AIRCRACK-NG_TAR}
 
-CHECK_AIRCRACK=$(shell cd ${OUT_DIR}/  && ./aircrack-ng_fin_stripped_1 | grep 'biscotte')
+CHECK_AIRCRACK=$(shell ./aircrack-ng_occamized_stripped | grep 'biscotte')
 
-test_aircrack_crack:
+test:
 	@echo "\t\tTest Aircrack-ng"
 	@echo "Checking if aircrack output valid:"
-	@cp ${AIRCRACK-NG_NAME}/test/password.lst ${OUT_DIR}/ && \
-	cp ${AIRCRACK-NG_NAME}/test/wpa.cap ${OUT_DIR}/
 ifeq ('$(CHECK_AIRCRACK)',)
 	@echo "\taircrack test valid? Failed!"
 else
@@ -71,11 +72,10 @@ endif
 ${HELPER_SCRIPT}:
 	tar -xvf ./${HELPER_TAR}
 
-
 clean:
 	rm -Rf ${OUT_DIR}
-	rm -rf *manifest
-	rm -rf aircrack-ng_occamized
+	rm -rf *manifest *.lst *.cap
+	rm -rf *occamized* *orig *.bc
 	rm -rf ${AIRCRACK-NG_NAME} ${AIRCRACK-NG_TAR}
 
 realclean: clean
