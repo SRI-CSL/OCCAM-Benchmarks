@@ -11,8 +11,12 @@ function usage() {
 #default values
 INTER_SPEC="none"
 INTRA_SPEC="onlyonce"
-USE_MUSLLVM="false"
 OPT_OPTIONS=""
+USE_MUSLLVM="false"
+##----------------------------------------------------------------##
+## This path to be changed accordingly if USE_MUSLLVM is enabled.
+##----------------------------------------------------------------##
+MUSLLVM_DIR="/homes/jorge/Repos/OCCAM-10/examples/linux/musllvm"
 
 POSITIONAL=()
 while [[ $# -gt 0 ]]
@@ -68,9 +72,9 @@ set -- "${POSITIONAL[@]}" # restore positional parameters
 #check that the require dependencies are built
 if [ $USE_MUSLLVM == "true" ];
 then
-    declare -a bitcode=("dnsproxy.bc" "libc.a.bc" "libc.a")
+    declare -a bitcode=("curl.bc" "${MUSLLVM_DIR}/libc.a.bc" "${MUSLLVM_DIR}/libc.a")
 else
-    declare -a bitcode=("dnsproxy.bc")
+    declare -a bitcode=("curl.bc")
 fi    
 
 for bc in "${bitcode[@]}"
@@ -90,19 +94,34 @@ do
 done
 
 
-MANIFEST=dnsproxy.manifest
-CONF_EXAMPLE=`realpath dnsproxy.conf`
+MANIFEST=curl.manifest
 
-cat > ${MANIFEST} <<EOF    
-{"binary": "dnsproxy_occamized", 
-"native_libs": [], 
-"name": "dnsproxy", 
-"static_args": ["-c", "$CONF_EXAMPLE"], 
+if [ $USE_MUSLLVM == "true" ];
+then
+    echo "Linking curl.bc with libc.a.bc."
+    llvm-link curl.bc ${MUSLLVM_DIR}/libc.a.bc -o curl-with-musllvm.bc
+    cat > ${MANIFEST} <<EOF    
+{"binary": "curl_occamized", 
+"native_libs":[],
+"name": "curl", 
+"static_args": ["--compress", "--http1.1", "--ipv4", "--ssl"],
+"dynamic_args": "1",
 "modules": [], 
-"ldflags": ["-levent","-O3"], 
-"main": "dnsproxy.bc"}
+"ldflags": ["-lz", "-lcurl", "-O3"], 
+"main": "curl.bc"}
 EOF
-
+else
+    cat > ${MANIFEST} <<EOF    
+{"binary": "curl_occamized", 
+"native_libs":[],
+"name": "curl", 
+"static_args": ["--compress", "--http1.1", "--ipv4", "--ssl"],
+"dynamic_args": "1",
+"modules": [], 
+"ldflags": ["-lz", "-lcurl", "-O3"], 
+"main": "curl.bc"}
+EOF
+fi    
     
 
 export OCCAM_LOGLEVEL=INFO
@@ -120,10 +139,9 @@ slash ${SLASH_OPTS} --work-dir=slash ${MANIFEST}
 status=$?
 if [ $status -eq 0 ]
 then
-    cp slash/dnsproxy_occamized dnsproxy_occamized
-    strip dnsproxy_occamized -o dnsproxy_occamized_stripped
+    cp slash/curl_occamized ./
+    # cp curl-2.28/src/curl ./curl-orig
+    strip curl_occamized -o curl_occamized_stripped
 else
     echo "Something failed while running slash"
 fi    
-
-

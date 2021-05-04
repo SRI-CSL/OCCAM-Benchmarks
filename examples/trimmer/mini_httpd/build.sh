@@ -93,10 +93,10 @@ done
 MANIFEST=mini_httpd.manifest
 
 cat > ${MANIFEST} <<EOF    
-{"binary": "mini_httpd_fin", 
+{"binary": "mini_httpd_occamized", 
 "native_libs": [], 
 "name": "mini_httpd", 
-"static_args": ["-C", "/OCCAM-Benchmarks/examples/trimmer/mini_httpd/mini_httpd.conf"], 
+"static_args": ["-C", "./mini_httpd.conf"], 
 "modules": [], 
 "ldflags": ["-lcrypt","-O3"], 
 "main": "mini_httpd.bc"}
@@ -120,8 +120,8 @@ slash ${SLASH_OPTS} --work-dir=slash ${MANIFEST}
 status=$?
 if [ $status -eq 0 ]
 then
-    cp slash/mini_httpd_fin mini_httpd_slashed
-    strip mini_httpd_slashed -o mini_httpd_slashed_stripped
+    cp slash/mini_httpd_occamized mini_httpd_occamized
+    strip mini_httpd_occamized -o mini_httpd_occamized_stripped
 else
     echo "Something failed while running slash"
 fi    

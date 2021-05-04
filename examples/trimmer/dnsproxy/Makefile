@@ -36,6 +36,9 @@ ${DNSPROXY_BITCODE}: ${DNSPROXY_NAME}
 ${OUT_DIR}:
 	mkdir -p ${OUT_DIR}
 
+test:
+	python3 test_dns.py
+
 ${DNSPROXY_NAME}:
 	wget https://wolfermann.org/dnsproxy-1.17.tar.gz
 	tar -xvzf ./${DNSPROXY_TAR}
@@ -45,5 +48,5 @@ ${HELPER_SCRIPT}:
 
 clean:
 	rm -rf ${DNSPROXY_NAME} ${DNSPROXY_TAR} dnsproxy
-	rm -rf *.bc *slash* *manifest
+	rm -rf *.bc *slash* *manifest *occamized*
 	rm -rf ${OUT_DIR}

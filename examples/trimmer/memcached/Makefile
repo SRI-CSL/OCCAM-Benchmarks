@@ -26,12 +26,6 @@ CFLAGS = -mem2reg -loops -lcssa -loop-simplify -loop-rotate -indvars
 
 all: ${MEMCACHED_BITCODE}
 
-compress: ${OUT_DIR}
-	cp ${MEMCACHED_BITCODE} ${OUT_DIR} && \
-	cd ${OUT_DIR} && \
-	echo '{"binary": "memcached_fin", "native_libs": [], "name": "memcached", "args": ["-m","64","-l","127.0.0.1"], "modules": [], "ldflags": ["-levent","-lpthread"], "main": "memcached.bc", "config_files": []}' > ${MEMCACHED_MANIFEST} && \
-	python ${TRIMMER_HOME}/tool/trimmer.py ${MEMCACHED_MANIFEST} ./  2> ${LOG_FILE}
-
 .PHONY: ${MEMCACHED_BITCODE}
 ${MEMCACHED_BITCODE}: ${MEMCACHED_NAME} 
 	cd ${MEMCACHED_NAME} && \
@@ -41,6 +35,9 @@ ${MEMCACHED_BITCODE}: ${MEMCACHED_NAME}
 	${BITCODE_EXTRACT} ${MEMCACHED} && \
 	${OPT_NAME} ${CFLAGS} ${MEMCACHED_BITCODE} -o ${MEMCACHED_BITCODE} && \
 	mv ${MEMCACHED_BITCODE} ../
+
+test:
+	python3 test_mem.py
 
 ${OUT_DIR}:
 	mkdir -p ${OUT_DIR}
@@ -54,7 +51,7 @@ ${HELPER_SCRIPT}:
 
 clean:
 	rm -rf ${MEMCACHED_NAME} ${MEMCACHED_TAR} 
-	rm -rf ./slash
+	rm -rf ./slash *.bc
 	rm -rf *manifest
 	rm -rf ${OUT_DIR}
 	rm -rf memcached_occamized

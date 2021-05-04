@@ -37,6 +37,8 @@ tcp: ${OUT_DIR}
 	echo '{"binary": "sans_fin",  "native_libs": [], "name": "sans", "args": ["-c", "sanss.conf"], "modules": [], "ldflags": [], "main": "sans.bc", "config_files":["sanss.conf"] }' > ${SANS_MANIFEST} && \
 	python ${TRIMMER_HOME}/tool/trimmer.py ${SANS_MANIFEST} ./ 2> ${LOG_FILE}
 
+test:
+	python3 test_sans.py
 
 .PHONY: ${SANS_BITCODE}
 ${SANS_BITCODE}: ${SANS_NAME} 
@@ -58,7 +60,7 @@ ${HELPER_SCRIPT}:
 	tar -xvf ./${HELPER_TAR}
 clean:
 	rm -rf ${SANS_NAME}
-	rm -rf *.bc *_slashed *_slashed_stripped *manifest
+	rm -rf *.bc *_occamized *_occamized_stripped *manifest
 	rm -rf ${OUT_DIR}
 	rm -rf slash
-	rm -rf sans_slashed
+	rm -rf sans_occamize

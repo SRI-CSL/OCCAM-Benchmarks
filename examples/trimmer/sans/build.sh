@@ -93,7 +93,7 @@ done
 MANIFEST=sans_udp.manifest
 
 cat > ${MANIFEST} <<EOF    
-{"binary": "sans_fin",  
+{"binary": "sans_occamized",  
 "native_libs": [], 
 "name": "sans", 
 "static_args": ["-c", "/OCCAM-Benchmarks/examples/trimmer/sans/sans.conf"], 
@@ -120,8 +120,8 @@ slash ${SLASH_OPTS} --work-dir=slash ${MANIFEST}
 status=$?
 if [ $status -eq 0 ]
 then
-    cp slash/sans_fin sans_slashed
-    strip sans_slashed -o sans_slashed_stripped
+    cp slash/sans_occamized sans_occamized
+    strip sans_occamized -o sans_occamized_stripped
 else
     echo "Something failed while running slash"
 fi    

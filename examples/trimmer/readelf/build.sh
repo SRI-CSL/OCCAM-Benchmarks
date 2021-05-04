@@ -11,8 +11,12 @@ function usage() {
 #default values
 INTER_SPEC="none"
 INTRA_SPEC="onlyonce"
-USE_MUSLLVM="false"
 OPT_OPTIONS=""
+USE_MUSLLVM="false"
+##----------------------------------------------------------------##
+## This path to be changed accordingly if USE_MUSLLVM is enabled.
+##----------------------------------------------------------------##
+MUSLLVM_DIR="/homes/jorge/Repos/OCCAM-10/examples/linux/musllvm"
 
 POSITIONAL=()
 while [[ $# -gt 0 ]]
@@ -68,9 +72,9 @@ set -- "${POSITIONAL[@]}" # restore positional parameters
 #check that the require dependencies are built
 if [ $USE_MUSLLVM == "true" ];
 then
-    declare -a bitcode=("dnsproxy.bc" "libc.a.bc" "libc.a")
+    declare -a bitcode=("readelf.bc" "${MUSLLVM_DIR}/libc.a.bc" "${MUSLLVM_DIR}/libc.a")
 else
-    declare -a bitcode=("dnsproxy.bc")
+    declare -a bitcode=("readelf.bc")
 fi    
 
 for bc in "${bitcode[@]}"
@@ -90,19 +94,32 @@ do
 done
 
 
-MANIFEST=dnsproxy.manifest
-CONF_EXAMPLE=`realpath dnsproxy.conf`
+MANIFEST=readelf.manifest
 
-cat > ${MANIFEST} <<EOF    
-{"binary": "dnsproxy_occamized", 
-"native_libs": [], 
-"name": "dnsproxy", 
-"static_args": ["-c", "$CONF_EXAMPLE"], 
+if [ $USE_MUSLLVM == "true" ];
+then
+    echo "Linking readelf.bc with libc.a.bc."
+    llvm-link readelf.bc ${MUSLLVM_DIR}/libc.a.bc -o readelf-with-musllvm.bc
+    cat > ${MANIFEST} <<EOF    
+{"binary": "readelf_occamized", 
+"native_libs":[],
+"name": "readelf", 
+"static_args": ["-a", "name"],
 "modules": [], 
-"ldflags": ["-levent","-O3"], 
-"main": "dnsproxy.bc"}
+"ldflags": ["-lz","-ldl", "-O3"], 
+"main": "readelf.bc"}
 EOF
-
+else
+    cat > ${MANIFEST} <<EOF    
+{"binary": "readelf_occamized", 
+"native_libs":[],
+"name": "readelf", 
+"static_args": ["-a", "name"],
+"modules": [], 
+"ldflags": ["-lz","-ldl", "-O3"], 
+"main": "readelf.bc"}
+EOF
+fi    
     
 
 export OCCAM_LOGLEVEL=INFO
@@ -120,10 +137,9 @@ slash ${SLASH_OPTS} --work-dir=slash ${MANIFEST}
 status=$?
 if [ $status -eq 0 ]
 then
-    cp slash/dnsproxy_occamized dnsproxy_occamized
-    strip dnsproxy_occamized -o dnsproxy_occamized_stripped
+    cp slash/readelf_occamized ./
+    # cp readelf-2.28/src/readelf ./readelf-orig
+    strip readelf_occamized -o readelf_occamized_stripped
 else
     echo "Something failed while running slash"
 fi    
-
-
