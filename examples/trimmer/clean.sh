@@ -1,42 +1,9 @@
-cd /OCCAM-Benchmarks/examples/trimmer/aircrack
-make clean
-cd /OCCAM-Benchmarks/examples/trimmer/airtun
-make clean
-cd /OCCAM-Benchmarks/examples/trimmer/bzip2
-make clean
-cd /OCCAM-Benchmarks/examples/trimmer/dnsproxy
-make clean
-cd /OCCAM-Benchmarks/examples/trimmer/gzip
-make clean
-cd /OCCAM-Benchmarks/examples/trimmer/memcached
-make clean
-cd /OCCAM-Benchmarks/examples/trimmer/mini_httpd
-make clean
-cd /OCCAM-Benchmarks/examples/trimmer/netperf
-make clean
-cd /OCCAM-Benchmarks/examples/trimmer/netstat
-make clean
-cd /OCCAM-Benchmarks/examples/trimmer/objdump
-make clean
-cd /OCCAM-Benchmarks/examples/trimmer/readlelf
-make clean
-cd /OCCAM-Benchmarks/examples/trimmer/sans
-make clean
-cd /OCCAM-Benchmarks/examples/trimmer/thttpd
-make clean
-cd /OCCAM-Benchmarks/examples/trimmer/totd
-make clean
-cd /OCCAM-Benchmarks/examples/trimmer/wget
-make clean
-cd /OCCAM-Benchmarks/examples/trimmer/gprof
-make clean
-cd /OCCAM-Benchmarks/examples/trimmer/httping
-make clean
-cd /OCCAM-Benchmarks/examples/trimmer/knockd
-make clean
-cd /OCCAM-Benchmarks/examples/trimmer/curl
-make clean
-cd /OCCAM-Benchmarks/examples/trimmer/readlelf
-make clean
-cd /OCCAM-Benchmarks/examples/trimmer/yices
-make clean
+#!/usr/bin/env bash
+
+for dir in */; do
+    echo "$dir"
+    cd "$dir"
+    make clean
+    cd ..
+done
+
