@@ -33,7 +33,7 @@ ipv4: ${OUT_DIR} ${TOTD_BITCODE}
 	python ${TRIMMER_HOME}/tool/trimmer.py ${TOTD_MANIFEST} ./ no-optimization 2> ${LOG_FILE}
 
 test:
-	python3 test_totd.py
+	sudo python3 test_totd.py
 
 ${TOTD_BITCODE}: ${TOTD_NAME} 
 	cd ${TOTD_NAME} && \

@@ -114,7 +114,7 @@ cat > ${MANIFEST} <<EOF
 {"binary": "totd_occamized", 
 "native_libs": [], 
 "name": "totd", 
-"static_args": ["-c", "$CONF", "-d2"],
+"static_args": ["-c", "$CONF", "-d2", "-no6"],
 "modules": [], 
 "ldflags": ["-O3"], 
 "main": "totd.bc"}
