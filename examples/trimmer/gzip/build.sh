@@ -13,7 +13,7 @@ INTER_SPEC="none"
 INTRA_SPEC="onlyonce"
 USE_MUSLLVM="false"
 OPT_OPTIONS=""
-USE_DYN_ARGS="false"
+USE_DYN_ARGS="true"
 
 POSITIONAL=()
 while [[ $# -gt 0 ]]

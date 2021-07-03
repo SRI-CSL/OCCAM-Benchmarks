@@ -27,24 +27,21 @@ compress: ${OUT_DIR}
 	cp huffman.c ${OUT_DIR}/work_dir
 
 
-test_compress: 
-	@echo "\t\tTest Compress"
-	@echo "File Existence Check:"
-	@# Testing if compressed file produced
+test:
 	@cp helper_huffman.c huffman.c
-	@cp huffman.c ${OUT_DIR}/ && \
-	cd ${OUT_DIR}/ && \
-	./gzip_fin_stripped && \
-	test -f /OCCAM-Benchmarks/examples/trimmer/gzip/huffman.c.gz && echo "\tgzip test compress file exist? Passed!" || echo "gzip test compress file exist? Failed!" 
-	@echo "Comparing File Sizes:"
-	@# Printing File sizes
+	@cd ${GZIP_NAME} && \
+        ${GZIP} --keep --force --quiet ../huffman.c
+	@mv huffman.c.gz huffman_unspecialized.c.gz
+	@cd ..
+	@cp helper_huffman.c huffman.c
+	./gzip_occamized_stripped huffman.c
 	@cp helper_huffman.c huffman.c
 	@echo -n "\tSource File Size:\t"
 	@stat -L -c %s huffman.c
 	@echo -n "\tCompressed File Size:\t"
-	@stat -L -c %s /OCCAM-Benchmarks/examples/trimmer/gzip/huffman.c.gz
+	@stat -L -c %s huffman.c.gz
 	@echo "Output comparison to Baseline:"
-	@cmp -i 10 ./huffman_unspecialized.c.gz /OCCAM-Benchmarks/examples/trimmer/gzip/huffman.c.gz; \
+	@cmp -i 10 ./huffman_unspecialized.c.gz huffman.c.gz; \
 	RETVAL=$$?; \
 	if [ $$RETVAL -eq 0 ]; then \
 		echo "\tgzip test baseline compare? Passed!"; \
@@ -54,16 +51,14 @@ test_compress:
 
 .PHONY: ${GZIP_BITCODE}
 ${GZIP_BITCODE}: ${GZIP_NAME} 
-	cp helper_huffman.c huffman.c && \
 	cp ${GZIP_PATCH} ${GZIP_NAME} && \
+	cp helper_huffman.c huffman.c && \
 	cd ${GZIP_NAME} && \
 	patch -p0 -f -R -i ./${GZIP_PATCH} && \
 	CC=${BITCODE_WRAPPER} CFLAGS="-DHAVE_CONFIG_H -DVERSION="\"1.17\"" -Xclang -disable-O0-optnone" ./configure && \
 	CC=${BITCODE_WRAPPER} make && \
 	${BITCODE_EXTRACT} ${GZIP} && \
-	mv ${GZIP_BITCODE} ../  && \
-	${GZIP} --keep --force --quiet ../huffman.c
-	mv huffman.c.gz huffman_unspecialized.c.gz
+	mv ${GZIP_BITCODE} ../ 
 
 ${OUT_DIR}:
 	mkdir -p ${OUT_DIR}
@@ -76,6 +71,8 @@ ${HELPER_SCRIPT}:
 	tar -xvf ./${HELPER_TAR}
 
 clean:
-	rm -rf ${GZIP_NAME} ${GZIP_TAR}
-	rm -rf *manifest *.bc *slash* huffman.c huffman_unspecialized.c.gz
-	rm -rf ${OUT_DIR}
+	-rm -rf ${GZIP_NAME} ${GZIP_TAR}
+	-rm -rf *manifest *.bc *slash* huffman.c huffman_unspecialized.c.gz huffman.c.gz
+	-rm -rf ${OUT_DIR}
+	-rm *_occamized* 
+	-rm gzip_orig
