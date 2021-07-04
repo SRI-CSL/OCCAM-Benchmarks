@@ -46,7 +46,7 @@ ${OBJDUMP_NAME}:
 	wget ftp://sourceware.org/pub/binutils/snapshots/binutils-2.28.90.tar.bz2
 	tar -xvf ./${OBJDUMP_TAR}
 
-test_objdump:
+test:
 	@echo "\t\tTest Objdump"
 	
 	./objdump_slashed_stripped > t_out && \
