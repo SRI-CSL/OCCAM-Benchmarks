@@ -24,6 +24,9 @@ CFLAGS = -mem2reg -loops -lcssa -loop-simplify -loop-rotate -indvars
 
 all: ${AIRCRACK-NG_BITCODE}
 
+test:
+	bash test.sh
+
 .PHONY: ${AIRTUN-NG_BITCODE}
 ${AIRCRACK-NG_BITCODE}: ${AIRCRACK-NG_NAME} 
 	cp crypto.patch ${AIRCRACK-NG_NAME}/src/ && \
@@ -49,6 +52,6 @@ ${HELPER_SCRIPT}:
 
 
 clean:
-	rm -rf ${AIRCRACK-NG_NAME} airtun-ng ${AIRCRACK-NG_TAR}
-	rm -rf *manifest *.bc *slash* 
-	rm -rf ${OUT_DIR}
+	-rm -rf ${AIRCRACK-NG_NAME} airtun-ng ${AIRCRACK-NG_TAR}
+	-rm -rf *manifest *.bc *slash* *_fin_* 
+	-rm -rf ${OUT_DIR}

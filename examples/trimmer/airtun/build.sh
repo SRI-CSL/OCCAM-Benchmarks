@@ -96,7 +96,7 @@ cat > ${MANIFEST} <<EOF
 {"binary": "airtun-ng_occamized", 
 "native_libs": [], 
 "name": "airtun-ng", 
-"static_args": ["-a", "00:0c:29:52:aa:56","-w","1234567890","eth0"], 
+"static_args": ["-a", "00:0c:29:52:aa:56","-w","1234567890","enp0s8"], 
 "modules": [], 
 "ldflags": ["-lssl","-lcrypto","-O3"], 
 "main": "airtun-ng.bc"}
