@@ -4,7 +4,7 @@ OBJDUMP_BITCODE=${OBJDUMP}.bc
 OBJDUMP_VERSION=2.28.90
 OBJDUMP_NAME=${BINUTILS}-${OBJDUMP_VERSION}
 OBJDUMP_TAR=${OBJDUMP_NAME}.tar.bz2
-
+INPUT=$(shell pwd)/name
 
 OBJDUMP_MANIFEST=${OBJDUMP}.manifest
 
@@ -45,6 +45,22 @@ ${OUT_DIR}:
 ${OBJDUMP_NAME}:
 	wget ftp://sourceware.org/pub/binutils/snapshots/binutils-2.28.90.tar.bz2
 	tar -xvf ./${OBJDUMP_TAR}
+
+test_objdump:
+	@echo "\t\tTest Objdump"
+	
+	./objdump_slashed_stripped > t_out && \
+	${OBJDUMP_NAME}/${BINUTILS}/${OBJDUMP} -D --syms -s -w ${INPUT} > o_out
+	@echo "Output comparison to Baseline:"
+	@cmp -s ./t_out o_out; \
+	RETVAL=$$?; \
+	if [ $$RETVAL -eq 0 ]; then \
+		echo "\tobjdump test baseline compare? Passed!"; \
+	else \
+		echo "\tobjdump test baseline compare? Failed!"; \
+	fi
+	@rm ./o_out
+	@rm ./t_out
 
 ${HELPER_SCRIPT}:
 	tar -xvf ./${HELPER_TAR}

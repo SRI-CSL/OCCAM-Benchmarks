@@ -96,7 +96,7 @@ cat > ${MANIFEST} <<EOF
 {"binary": "objdump_fin", 
 "native_libs": [], 
 "name": "objdump", 
-"static_args": ["-D","--syms","-s","-w", "/OCCAM-Benchmarks/examples/trimmer/objdump/name"], 
+"static_args": ["-D","--syms","-s","-w", "$PWD/name"], 
 "modules": [], 
 "ldflags": ["-ldl","-O3"], 
 "main": "objdump.bc"}
