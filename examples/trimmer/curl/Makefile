@@ -21,16 +21,16 @@ ${curl_BITCODE}: ${curl_NAME}
 	CC=${BITCODE_WRAPPER} CFLAGS=" -Xclang -disable-O0-optnone" ./configure && \
 	sed -i 's/CFLAGS = -Xclang -disable-O0-optnone -Qunused-arguments -Os/CFLAGS = -Xclang -disable-O0-optnone/g' src/Makefile && \
 	CC=${BITCODE_WRAPPER} make && \
-        sudo make install && \
-	sudo cp /usr/local/bin/curl  ../ && \
-        sudo chmod 777 ../${curl} && \
+        make install && \
+	cp /usr/local/bin/curl  ../ && \
+        chmod 777 ../${curl} && \
         ${BITCODE_EXTRACT} ../${curl}
 
 test:
 	@echo "\t\tTest Curl"
 	
-	./curl_occamized_stripped > t_out && \
-	curl --compress --http1.1 --ipv4 --ssl http://www.google.com > o_out
+	./curl_occamized_stripped https://www.sri.com > t_out && \
+	./curl --compress --http1.1 --ipv4 --ssl https://www.sri.com > o_out
 	@echo "Output comparison to Baseline:"
 	@cmp -s ./t_out o_out; \
 	RETVAL=$$?; \
@@ -39,9 +39,8 @@ test:
 	else \
 		echo "\tcurl test baseline compare? Failed!"; \
 	fi
-	#@rm ./o_out
-	#@rm ./t_out
-
+	@rm ./o_out
+	@rm ./t_out
 
 		
 ${OUT_DIR}:
@@ -52,6 +51,6 @@ ${curl_NAME}:
 	tar -xvzf ./${curl_TAR}
 
 clean:
-	rm -rf ${curl_NAME} ${curl_TAR}
-	rm -rf *.bc *manifest *slash* *occamized*
-	rm -r ${OUT_DIR}
+	-rm -rf ${curl_NAME} ${curl_TAR} curl
+	-rm -rf *.bc *manifest *slash* *occamized*
+	-rm -r ${OUT_DIR}
