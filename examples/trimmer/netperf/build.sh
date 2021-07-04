@@ -96,7 +96,7 @@ cat > ${MANIFEST} <<EOF
 {"binary": "netperf_fin", 
 "native_libs": [], 
 "name": "netperf", 
-"static_args": ["-H", "localhost","-t","TCP_RR","-D","5,G","-i","15,1"], 
+"static_args": ["-H", "localhost","-t","TCP_RR","-v","0"], 
 "modules": [], 
 "ldflags": ["-lm","-O3"], 
 "main": "netperf.bc"}
