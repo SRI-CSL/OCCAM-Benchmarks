@@ -20,33 +20,26 @@ BITCODE_EXTRACT?=get-bc
 
 all: ${MINI_HTTPD_BITCODE}
 
-test_mini:
+test:
 	@echo "\t\tTesting Mini"
 	@cp ${MINI_HTTPD_CONF} ${MINI_HTTPD_NAME}
 	@cd ${MINI_HTTPD_NAME}  && \
-	sed -i 's/8645/8192/g' ${MINI_HTTPD_CONF}
-	@test -f workdir && echo "workdir already exists" || mkdir workdir 
+        sed -i 's/8087/8199/g' ${MINI_HTTPD_CONF}
+	@test -f workdir && echo "workdir already exists" || mkdir workdir
 	@echo '<HTML><HEAD><TITLE>Index of ./</TITLE></HEAD><BODY BGCOLOR="#99cc99" TEXT="#000000" LINK="#2020ff" VLINK="#4040cc"><H4>Index of ./</H4></HTML>' > workdir/index.html
-
 	${MINI_HTTPD_NAME}/mini_httpd -C ${MINI_HTTPD_NAME}/mini_httpd.conf
-	wget 127.0.0.1:8192/ 
-	@cp ${MINI_HTTPD_CONF} ${OUT_DIR}/
-	sed -i 's/8192/8649/g' ${MINI_HTTPD_CONF}
-	@cd ${OUT_DIR}/ && \
-	mkdir workdir
-	echo '<HTML><HEAD><TITLE>Index of ./</TITLE></HEAD><BODY BGCOLOR="#99cc99" TEXT="#000000" LINK="#2020ff" VLINK="#4040cc"><H4>Index of ./</H4></HTML>' > ./workdir/index.html && \
-	./mini_httpd_occamized  && \
-	wget 127.0.0.1:8649/
-	@cmp -s ./index.html ${OUT_DIR}/index.html; \
-	RETVAL=$$?; \
-	if [ $$RETVAL -eq 0 ]; then \
-		echo "\tmini_httpd test baseline compare? Passed!"; \
-	else \
-		echo "\tmini_httpd test baseline compare? Failed!"; \
-	fi
-	@rm -r workdir
-	@rm ../index.html
-	@rm -r ../workdir
+	wget 127.0.0.1:8199/
+	echo '<HTML><HEAD><TITLE>Index of ./</TITLE></HEAD><BODY BGCOLOR="#99cc99" TEXT="#000000" LINK="#2020ff" VLINK="#4040cc"><H4>Index of ./</H4></HTML>' > workdir/index.html && \
+        sed -i 's/8199/8087/g' ${MINI_HTTPD_CONF}
+	./mini_httpd_occamized_stripped  && \
+        wget 127.0.0.1:8087/	
+	@cmp -s ./index.html index.html.1; \
+        RETVAL=$$?; \
+        if [ $$RETVAL -eq 0 ]; then \
+                echo "\tmini_httpd test baseline compare? Passed!"; \
+        else \
+                echo "\tmini_httpd test baseline compare? Failed!"; \
+        fi
 
 
 ${MINI_HTTPD_BITCODE}: ${MINI_HTTPD_NAME} 
