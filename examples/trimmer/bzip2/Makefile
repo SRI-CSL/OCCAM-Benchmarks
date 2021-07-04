@@ -102,6 +102,6 @@ ${HELPER_SCRIPT}:
 
 clean:
 	-rm -rf ${BZIP_NAME} ${BZIP_TAR} bzip2
-	-rm -rf *.bc *slash* *manifest *occamized*
+	-rm -rf *.bc *slash* *manifest *occamized* *-orig*
 	-rm -rf huffman_unspecialized.c.bz2 huffman.c *.bz2
 	-rm -rf ${OUT_DIR}
