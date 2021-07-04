@@ -104,7 +104,7 @@ then
 {"binary": "gprof_occamized", 
 "native_libs":[],
 "name": "gprof", 
-"static_args": ["-c","-r","-i","-s", "name"],
+"static_args": ["-q", "${PWD}/name"],
 "modules": [], 
 "ldflags": ["-ldl", "-O3"], 
 "main": "gprof.bc"}
@@ -114,7 +114,7 @@ else
 {"binary": "gprof_occamized", 
 "native_libs":[],
 "name": "gprof", 
-"static_args": ["-c","-r","-i","-s", "name"],
+"static_args": ["-q", "${PWD}/name"],
 "modules": [], 
 "ldflags": ["-ldl", "-O3"], 
 "main": "gprof.bc"}
