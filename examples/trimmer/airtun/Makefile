@@ -53,5 +53,5 @@ ${HELPER_SCRIPT}:
 
 clean:
 	-rm -rf ${AIRCRACK-NG_NAME} airtun-ng ${AIRCRACK-NG_TAR}
-	-rm -rf *manifest *.bc *slash* *_fin_* 
+	-rm -rf *manifest *.bc *slash* *_fin_* *_occamized* airtun-ng-orig 
 	-rm -rf ${OUT_DIR}
