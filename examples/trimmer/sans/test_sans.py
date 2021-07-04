@@ -19,7 +19,7 @@ def main():
         f.close()
         f = open('t_out','r')
         a = f.read()
-        if a.find("1 server found") !=-1:
+        if a.find("1 server found") !=-1 and a.find("no servers could be reached") == -1:
            print("Test Passed")
         else:
            print("Test Failed")
