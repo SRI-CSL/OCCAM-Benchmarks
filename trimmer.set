@@ -99,6 +99,6 @@
             "dirname" : "examples/trimmer/yices",
             "execname": "yices",
             "enabled" : "false"
-        },
+        }
     ]
 }
