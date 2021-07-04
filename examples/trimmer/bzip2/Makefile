@@ -24,32 +24,27 @@ compress: ${OUT_DIR} ${BZIP_BITCODE}
 	echo '{"binary": "bzip2_fin", "native_libs": [], "name": "bzip2", "args": ["-fkqs", "huffman.c"], "modules": [], "ldflags": ["-lbz2"], "main": "bzip2.bc", "config_files": []}' > ${BZIP_MANIFEST} && \
 	python ${TRIMMER_HOME}/tool/trimmer.py ${BZIP_MANIFEST} ./work 2> ${LOG_FILE} 
 
-test_compress: 
-	@echo "\t\tTest Compress"
-	@echo "File Existence Check:"
-	@# Testing if compressed file produced
+test: 
 	@cp helper_huffman.c huffman.c
-	@cp huffman.c ${OUT_DIR}/ && \
-	cd ${OUT_DIR}/ && \
-	./bzip2_fin_stripped && \
-	test -f /OCCAM-Benchmarks/examples/trimmer/bzip2/huffman.c.bz2 && echo "\tbzip2 test compress file exist? Passed!" || echo "\tbzip2 test compress file exist?  Failed!" 
-
-	@echo "Comparing File Sizes:"
-	@# Printing File sizes
+	@cd ${BZIP_NAME} && \
+        ${BZIP} -fkqs ../huffman.c
+	@mv huffman.c.bz2 huffman_unspecialized.c.bz2
+	@cd ..
+	@cp helper_huffman.c huffman.c
+	./bzip2_occamized_stripped
+	@cp helper_huffman.c huffman.c
 	@echo -n "\tSource File Size:\t"
-	@cp helper_huffman.c huffman.c
 	@stat -L -c %s huffman.c
 	@echo -n "\tCompressed File Size:\t"
-	@stat -L -c %s /OCCAM-Benchmarks/examples/trimmer/bzip2/huffman.c.bz2
+	@stat -L -c %s huffman.c.bz2
 	@echo "Output comparison to Baseline:"
-	@cmp -s ./huffman_unspecialized.c.bz2 /OCCAM-Benchmarks/examples/trimmer/bzip2/huffman.c.bz2; \
+	@cmp -i 10 ./huffman_unspecialized.c.bz2 huffman.c.bz2; \
 	RETVAL=$$?; \
 	if [ $$RETVAL -eq 0 ]; then \
-		echo "\tbzip2 test baseline compare? Passed!"; \
+		echo "\tbzip test baseline compare? Passed!"; \
 	else \
-		echo "\tbzip2 test baseline compare? Failed!"; \
+		echo "\tbzip test baseline compare? Failed!"; \
 	fi
-
 
 decompress: ${OUT_DIR} ${BZIP_BITCODE}
 	cp ${BZIP_BITCODE} ${OUT_DIR}
@@ -93,8 +88,6 @@ ${BZIP_BITCODE}: ${BZIP_NAME}
 	CC=${BITCODE_WRAPPER} make && \
 	${BITCODE_EXTRACT} ${BZIP} && \
 	cp huffman.c ../ && \
-	./bzip2 -fkqs huffman.c && \
-	mv huffman.c.bz2 ../huffman_unspecialized.c.bz2 && \
 	mv ${BZIP_BITCODE} ../
 
 ${OUT_DIR}:
@@ -108,7 +101,7 @@ ${HELPER_SCRIPT}:
 	tar -xvf ./${HELPER_TAR}
 
 clean:
-	rm -rf ${BZIP_NAME} ${BZIP_TAR} bzip2
-	rm -rf *.bc *slash* *manifest *occamized*
-	rm -rf huffman_unspecialized.c.bz2 huffman.c
-	rm -rf ${OUT_DIR}
+	-rm -rf ${BZIP_NAME} ${BZIP_TAR} bzip2
+	-rm -rf *.bc *slash* *manifest *occamized*
+	-rm -rf huffman_unspecialized.c.bz2 huffman.c *.bz2
+	-rm -rf ${OUT_DIR}
