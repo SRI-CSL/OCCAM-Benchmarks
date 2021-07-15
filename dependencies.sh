@@ -5,36 +5,36 @@
 # --- portfolio.set ---
 
 # readelf
-sudo apt-get install texinfo bison flex
+sudo apt-get install -y texinfo bison flex
 
 # openssh
-sudo apt-get install autoconf
+sudo apt-get install -y autoconf
 
 # apache
-sudo apt-get install libtool
+sudo apt-get install -y libtool
 
 # --- trimmer.set ---
 
 # aircrack
-sudo apt-get install libssl-dev
+sudo apt-get install -y libssl-dev
 
 # bzip2
-sudo apt-get install libbz2-dev
+sudo apt-get install -y libbz2-dev
 
 # curl
 
 # dnsproxy
-sudo apt-get install libevent1-dev
+sudo apt-get install -y libevent1-dev
 
 # httping
-sudo apt-get install gettext
+sudo apt-get install -y gettext
 
 # knockd
-sudo apt-get install libpcap-dev
+sudo apt-get install -y libpcap-dev
 
 # wget
-sudo apt-get install libgnutls28-dev libidn11-dev libpcre3-dev uuid-dev
+sudo apt-get install -y libgnutls28-dev libidn11-dev libpcre3-dev uuid-dev
 
 # yices
-sudo apt-get install gperf
+sudo apt-get install -y gperf
 
