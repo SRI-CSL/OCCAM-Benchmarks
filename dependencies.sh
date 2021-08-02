@@ -38,3 +38,5 @@ sudo apt-get install -y libgnutls28-dev libidn11-dev libpcre3-dev uuid-dev
 # yices
 sudo apt-get install -y gperf
 
+# --- coreutils.set ---
+sudo apt-get install -y autopoint
