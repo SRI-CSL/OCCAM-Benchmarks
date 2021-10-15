@@ -16,7 +16,7 @@ sudo apt-get install -y libtool
 # --- trimmer.set ---
 
 # aircrack
-sudo apt-get install -y libssl-dev
+# sudo apt-get install -y libssl-dev # Conflicts with curl build
 
 # bzip2
 sudo apt-get install -y libbz2-dev
