@@ -20,11 +20,12 @@ ${YICES_BITCODE}: ${YICES_NAME}
 	./configure CC=gclang && \
 	sed -i 's/gcc/gclang -fno-inline -fno-inline-functions -Xclang -disable-O0-optnone -O2/g' src/Makefile && \
 	CC=${BITCODE_WRAPPER} make && \
-	${BITCODE_EXTRACT} build/x86_64-pc-linux-gnu-release/bin/${YICES}_main && \
-	mv build/x86_64-pc-linux-gnu-release/bin/${YICES_BITCODE} ../
-	cp build/x86_64-pc-linux-gnu-release/lib/libyices.a ../
+	${BITCODE_EXTRACT} ./${YICES_NAME}/build/x86_64-pc-linux-gnu-release/bin/${YICES}_main && \
+	mv ./${YICES_NAME}/build/x86_64-pc-linux-gnu-release/bin/${YICES_BITCODE} ../
+	cp ./${YICES_NAME}/build/x86_64-pc-linux-gnu-release/lib/libyices.a ../
 
 ${YICES_NAME}:
+	wget https://yices.csl.sri.com/releases/${YICES_VERSION}/${YICES_TAR}
 	tar -xvzf ./${YICES_TAR}
 
 clean:
