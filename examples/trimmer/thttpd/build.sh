@@ -13,6 +13,7 @@ INTER_SPEC="none"
 INTRA_SPEC="onlyonce"
 USE_MUSLLVM="false"
 OPT_OPTIONS=""
+OUT_DIR=slash
 
 POSITIONAL=()
 while [[ $# -gt 0 ]]
@@ -65,6 +66,7 @@ esac
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
+
 #check that the require dependencies are built
 if [ $USE_MUSLLVM == "true" ];
 then
@@ -96,7 +98,7 @@ cat > ${MANIFEST} <<EOF
 {"binary": "thttpd_fin", 
 "native_libs": [], 
 "name": "thttpd", 
-"static_args": ["-C",  "/OCCAM-Benchmarks/examples/trimmer/thttpd/thttpd.conf"], 
+"static_args": ["-C",  "$PWD/thttpd.conf"], 
 "modules": [], 
 "ldflags": ["-lcrypt","-O3"], 
 "main": "thttpd.bc"}
@@ -109,18 +111,26 @@ export OCCAM_LOGFILE=${PWD}/slash/occam.log
 
 rm -rf slash
 
+#echo "Making a new directory with an index file to host"
+#mkdir ${OUT_DIR}
+#cd ${OUT_DIR}
+#mkdir -p workdir && \
+#echo '<HTML><HEAD><TITLE>Index of ./</TITLE></HEAD><BODY BGCOLOR="#99cc99" TEXT="#000000" LINK="#2020ff" VLINK="#4040cc"><H4>Index of ./</H4></HTML>' > workdir/index.html && \
+#cd ..
+
 # OCCAM
 SLASH_OPTS="--inter-spec-policy=${INTER_SPEC} --intra-spec-policy=${INTRA_SPEC}   --stats $OPT_OPTIONS"
 echo "============================================================"
 echo "Running with options ${SLASH_OPTS}"
 echo "============================================================"
-slash ${SLASH_OPTS} --work-dir=slash ${MANIFEST}
+slash ${SLASH_OPTS} --work-dir=${OUT_DIR} ${MANIFEST}
 
 status=$?
 if [ $status -eq 0 ]
 then
     cp slash/thttpd_fin thttpd_slashed
     strip thttpd_slashed -o thttpd_slashed_stripped
+    strip slash/thttpd_fin -o slash/thttpd_fin_stripped
 else
     echo "Something failed while running slash"
 fi    

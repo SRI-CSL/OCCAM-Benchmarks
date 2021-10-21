@@ -96,7 +96,7 @@ cat > ${MANIFEST} <<EOF
 {"binary": "mini_httpd_occamized", 
 "native_libs": [], 
 "name": "mini_httpd", 
-"static_args": ["-C", "./mini_httpd.conf"], 
+"static_args": ["-C", "mini_httpd.conf"], 
 "modules": [], 
 "ldflags": ["-lcrypt","-O3"], 
 "main": "mini_httpd.bc"}

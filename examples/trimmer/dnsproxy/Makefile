@@ -37,7 +37,7 @@ ${OUT_DIR}:
 	mkdir -p ${OUT_DIR}
 
 test:
-	python3 test_dns.py
+	sudo python3 test_dns.py
 
 ${DNSPROXY_NAME}:
 	wget https://wolfermann.org/dnsproxy-1.17.tar.gz

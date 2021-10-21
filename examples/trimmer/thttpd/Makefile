@@ -4,14 +4,14 @@ THTTPD_VERSION=2.25b
 THTTPD_NAME=${THTTPD}-${THTTPD_VERSION}
 THTTPD_TAR=${THTTPD_NAME}.tar.gz
 THTTPD_PATCH=thttpd.patch
-
+THTTPD_CONF=thttpd.conf
 THTTPD_MANIFEST=${THTTPD}.manifest
 
 HELPER_SCRIPT=./build.sh
 HELPER_TAR=helper_scripts_and_files.tar.gz
 
 
-OUT_DIR?=trimmer
+OUT_DIR?=slash
 LOG_FILE?=logs
 
 BITCODE_WRAPPER?=gclang
@@ -19,12 +19,34 @@ BITCODE_EXTRACT?=get-bc
 
 all: ${THTTPD_BITCODE}
 
-compress: ${OUT_DIR}
-	cp ${THTTPD_BITCODE} ${OUT_DIR} && \
-	cp ${THTTPD}.conf ${OUT_DIR} && \
-	cd ${OUT_DIR} && \
-	echo '{"binary": "thttpd_fin", "native_libs": [], "name": "thttpd", "args": ["-C",  "thttpd.conf"], "modules": [], "ldflags": ["-lcrypt"], "main": "thttpd.bc", "config_files": ["thttpd.conf"]}' > ${THTTPD_MANIFEST} && \
-	python ${TRIMMER_HOME}/tool/trimmer.py ${THTTPD_MANIFEST} ./ 2> ${LOG_FILE}
+test:
+	@echo "\t\tTesting Thttpd"
+	@cd ${OUT_DIR}/ && \
+        mkdir -p workdir && \
+        echo '<HTML><HEAD><TITLE>Index of ./</TITLE></HEAD><BODY BGCOLOR="#99cc99" TEXT="#000000" LINK="#2020ff" VLINK="#4040cc"><H4>Index of ./</H4></HTML>' > workdir/index.html && \
+        ./thttpd_fin_stripped && \
+        cd ../ && \
+        sleep 1
+	wget 127.0.0.1:8087/
+	@rm -r slash/workdir
+	cp ${THTTPD_CONF} ${THTTPD_NAME}
+	sed -i 's/8087/8199/g' ${THTTPD_NAME}/${THTTPD_CONF}
+	@mkdir -p ${THTTPD_NAME}/workdir
+	@echo '<HTML><HEAD><TITLE>Index of ./</TITLE></HEAD><BODY BGCOLOR="#99cc99" TEXT="#000000" LINK="#2020ff" VLINK="#4040cc"><H4>Index of ./</H4></HTML>' > ${THTTPD_NAME}/workdir/index.html && \
+        cd ${THTTPD_NAME} && \
+        ./thttpd -C ${THTTPD_CONF}
+	sleep 1
+	cd ${THTTPD_NAME} && \
+        wget 127.0.0.1:8199/
+	@cmp -s ${THTTPD_NAME}/index.html.1 index.html; \
+        RETVAL=$$?; \
+        if [ $$RETVAL -eq 0 ]; then \
+                echo "\tthttpd test baseline compare? Passed!"; \
+        else \
+                echo "\tthttpd test baseline compare? Failed!"; \
+        fi
+	@rm -r ${THTTPD_NAME}/workdir
+	@rm ${THTTPD_NAME}/index.html.1 index.html
 
 .PHONY: ${THTTPD_BITCODE}
 ${THTTPD_BITCODE}: ${THTTPD_NAME} 

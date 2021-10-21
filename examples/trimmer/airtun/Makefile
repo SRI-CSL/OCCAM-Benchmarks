@@ -24,6 +24,15 @@ CFLAGS = -mem2reg -loops -lcssa -loop-simplify -loop-rotate -indvars
 
 all: ${AIRCRACK-NG_BITCODE}
 
+airtun: ${OUT_DIR}
+	cp ${AIRTUN-NG_BITCODE} ${OUT_DIR} && \
+	cd ${OUT_DIR} && \
+	echo '{"binary": "airtun-ng_fin", "native_libs": [], "name": "airtun-ng", "args": ["-a", "00:0c:29:52:aa:56", "-w", "1234567890", "enp0s8"], "modules": [], "ldflags": ["-lssl","-lcrypto"], "main": "airtun-ng.bc", "config_files": []}' > ${AIRTUN-NG_MANIFEST} && \
+	python ${TRIMMER_HOME}/tool/trimmer.py ${AIRTUN-NG_MANIFEST} ./airtun  2> ${LOG_FILE}
+
+test:
+	bash test.sh
+
 .PHONY: ${AIRTUN-NG_BITCODE}
 ${AIRCRACK-NG_BITCODE}: ${AIRCRACK-NG_NAME} 
 	cp crypto.patch ${AIRCRACK-NG_NAME}/src/ && \
@@ -49,6 +58,6 @@ ${HELPER_SCRIPT}:
 
 
 clean:
-	rm -rf ${AIRCRACK-NG_NAME} airtun-ng ${AIRCRACK-NG_TAR}
-	rm -rf *manifest *.bc *slash* 
-	rm -rf ${OUT_DIR}
+	-rm -rf ${AIRCRACK-NG_NAME} airtun-ng ${AIRCRACK-NG_TAR}
+	-rm -rf *manifest *.bc *slash* *_fin_* *_occamized* airtun-ng-orig 
+	-rm -rf ${OUT_DIR}

@@ -20,17 +20,10 @@ BITCODE_EXTRACT?=get-bc
 
 all: ${WGET_BITCODE}
 
-compress: ${OUT_DIR}
-	cp ${WGET_BITCODE} ${OUT_DIR} && \
-	cp wgetrc ${OUT_DIR} && \
-	cd ${OUT_DIR} && \
-  echo '{"binary": "wget_fin", "native_libs":[],"name": "wget", "args": ["--config=wgetrc","_" ], "modules": [], "ldflags": ["-luuid","-lgnutls","-lpcre", "-lnettle", "-lidn", "-lz", "-lpthread"], "main": "wget.bc", "config_files": ["wgetrc"]}' > ${WGET_MANIFEST} && \
-	python ${TRIMMER_HOME}/tool/trimmer.py ${WGET_MANIFEST} ./work_dir useGlob useRegOffset exceedLimit 300 optLevel none 2> ${LOG_FILE}
-
-test_compress:
+test:
 	@echo "\t\tTest Wget"
 	cd ${OUT_DIR}/ && \
-	./wget_fin_stripped a https://releases.llvm.org/7.0.0/cfe-7.0.0.src.tar.xz && \
+	./wget_fin_stripped https://releases.llvm.org/7.0.0/cfe-7.0.0.src.tar.xz && \
 	@echo "File Existence Check" && \
 	test -f cfe-7.0.0.src.tar.xz && echo "\twget test file exist? Passed!" || echo "\twget test file exist? Failed!" 
 	
@@ -46,13 +39,7 @@ test_compress:
 	else \
 		echo "\twget test baseline compare? Failed!"; \
 	fi
-
-	
-	
-
-
-
-
+	@rm ${WGET_NAME}/src/cfe-7.0.0.src.tar.xz ${OUT_DIR}/cfe-7.0.0.src.tar.xz
 
 .PHONY: ${WGET_BITCODE}
 ${WGET_BITCODE}: ${WGET_NAME} 
@@ -77,6 +64,6 @@ ${HELPER_SCRIPT}:
 
 
 clean:
-	rm -rf ${WGET_NAME} ${WGET_TAR}
-	rm -rf *.bc *slash* *manifest 
-	rm -rf ${OUT_DIR}
+	-rm -rf ${WGET_NAME} ${WGET_TAR}
+	-rm -rf *.bc *slash* *manifest wget_fin*
+	-rm -rf ${OUT_DIR}

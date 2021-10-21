@@ -21,15 +21,9 @@ CFLAGS = -mem2reg -loops -lcssa -loop-simplify -loop-rotate -indvars
 
 all: ${NETSTAT_BITCODE}
 
-netstat: ${OUT_DIR}
-	cp ${NETSTAT_BITCODE} ${OUT_DIR} && \
-	cd ${OUT_DIR} && \
-	echo '{"binary": "netstat_fin", "native_libs": [], "name": "netstat", "args": ["-a", "-e","-p","-s"], "modules": [], "ldflags": [], "main": "netstat.bc", "config_files": []}' > ${NETSTAT_MANIFEST} && \
-	python ${TRIMMER_HOME}/tool/trimmer.py ${NETSTAT_MANIFEST} ./work_dir  2> ${LOG_FILE}
-
-test_netstat:
+test:
 	@echo "\t\tTest Netstat" && \
-	${NETSTAT_NAME}/netstat -a -e -p -s > o_out && \
+	${NETSTAT_NAME}/netstat -a -e -p > o_out && \
 	${OUT_DIR}/netstat_fin_stripped > t_out
 	@echo "Output comparison to Baseline:"
 	@cmp -s ./o_out t_out; \
@@ -50,7 +44,7 @@ ${NETSTAT_BITCODE}: ${NETSTAT_NAME}
 	cd ${NETSTAT_NAME} && \
 	sed -i 's/CC	= gcc//g' ./Makefile && \
 	patch -R Makefile optnone.patch && \
-	CC=${BITCODE_WRAPPER} make && \
+	yes "" | CC=${BITCODE_WRAPPER} make && \
 	${BITCODE_EXTRACT} ${NETSTAT} && \
 	${OPT_NAME} ${CFLAGS} ${NETSTAT_BITCODE} -o ${NETSTAT_BITCODE} && \
 	mv ${NETSTAT_BITCODE} ../ 

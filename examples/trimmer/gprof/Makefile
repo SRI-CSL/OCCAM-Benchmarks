@@ -6,6 +6,7 @@ GPROF_NAME=${BINUTILS}-${GPROF_VERSION}
 GPROF_TAR=${GPROF_NAME}.tar.gz
 
 GPROF_MANIFEST=${GPROF}.manifest
+INPUT=$(shell pwd)/name
 
 OUT_DIR?=slash
 LOG_FILE?=logs
@@ -15,11 +16,10 @@ BITCODE_EXTRACT?=get-bc
 
 all: ${GPROF_BITCODE}
 
-test_gprof:
-	@echo "\t\tTest gprof"
-	
-	gprof_occamized_stripped > t_out && \
-	${GPROF_NAME}/${GPROF}/${GPROF} -c -r -i -s name > o_out
+test:
+	@echo "\t\tTest gprof"	
+	./gprof_occamized_stripped > t_out && \
+	${GPROF_NAME}/${GPROF}/${GPROF} -q ${INPUT} > o_out
 	@echo "Output comparison to Baseline:"
 	@cmp -s ./t_out o_out; \
 	RETVAL=$$?; \
@@ -40,8 +40,9 @@ ${GPROF_BITCODE}: ${GPROF_NAME}
 	cd ${BINUTILS} && \
 	cd ../${GPROF} && \
 	${BITCODE_EXTRACT} ${GPROF} && \
+	cp ${GPROF} ../../name && \
 	mv ${GPROF_BITCODE} ../.. 
-		
+
 ${OUT_DIR}:
 	mkdir -p ${OUT_DIR}
 

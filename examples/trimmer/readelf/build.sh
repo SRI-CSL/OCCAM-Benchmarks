@@ -95,6 +95,7 @@ done
 
 
 MANIFEST=readelf.manifest
+EXAMPLE=`realpath name`
 
 if [ $USE_MUSLLVM == "true" ];
 then
@@ -104,7 +105,7 @@ then
 {"binary": "readelf_occamized", 
 "native_libs":[],
 "name": "readelf", 
-"static_args": ["-a", "name"],
+"static_args": ["-a", "$EXAMPLE"],
 "modules": [], 
 "ldflags": ["-lz","-ldl", "-O3"], 
 "main": "readelf.bc"}
@@ -114,7 +115,7 @@ else
 {"binary": "readelf_occamized", 
 "native_libs":[],
 "name": "readelf", 
-"static_args": ["-a", "name"],
+"static_args": ["-a", "$EXAMPLE"],
 "modules": [], 
 "ldflags": ["-lz","-ldl", "-O3"], 
 "main": "readelf.bc"}

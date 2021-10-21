@@ -114,7 +114,7 @@ cat > ${MANIFEST} <<EOF
  "native_libs":[],
  "name": "yices_main",
  "modules": [],
- "static_args": ["$EXAMPLE"],
+ "static_args": ["--logic=QF_BV", "$EXAMPLE"],
  "ldflags": ["-lgmp","$YICES_LIB"],
  "main": "yices_main.bc"
  }

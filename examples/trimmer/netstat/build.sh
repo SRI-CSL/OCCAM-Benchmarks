@@ -96,7 +96,7 @@ cat > ${MANIFEST} <<EOF
 {"binary": "netstat_fin", 
 "native_libs": [], 
 "name": "netstat", 
-"static_args": ["-a", "-e","-p","-s"], 
+"static_args": ["-a", "-e","-p"], 
 "modules": [], 
 "ldflags": ["-O3"], 
 "main": "netstat.bc"}

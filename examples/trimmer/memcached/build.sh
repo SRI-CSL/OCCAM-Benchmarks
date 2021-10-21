@@ -97,8 +97,8 @@ cat > ${MANIFEST} <<EOF
 {"binary": "memcached_occamized", 
 "native_libs":[],
 "name": "memcached", 
-"static_args": ["-m","-l"],
-"dynamic_args": "2",
+"static_args": ["-m","64","-l"],
+"dynamic_args": "1",
 "modules": [], 
 "ldflags": ["-levent","-lpthread","-O3"], 
 "main": "memcached.bc"}

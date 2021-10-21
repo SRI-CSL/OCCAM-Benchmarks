@@ -96,7 +96,8 @@ cat > ${MANIFEST} <<EOF
 {"binary": "wget_fin", 
 "native_libs":[],
 "name": "wget", 
-"static_args": ["--config=/OCCAM-Benchmarks/examples/trimmer/wget/wgetrc","_" ], 
+"static_args": ["--config=$PWD/wgetrc"],
+"dynamic_args": "1", 
 "modules": [], 
 "ldflags": ["-luuid","-lgnutls","-lpcre", "-lnettle", "-lidn", "-lz", "-lpthread","-O3"], 
 "main": "wget.bc"}

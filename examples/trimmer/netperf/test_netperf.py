@@ -6,26 +6,23 @@ import os
 
 def main():
     # Note the -u here: essential for not buffering the stdout of the subprocess
-    proc = subprocess.Popen(['./dnsproxy_occamized_stripped'],
-                            stdout=subprocess.PIPE,
-                            stderr=subprocess.STDOUT)
+    proc = subprocess.Popen(['./netperf-2.4.3/src/netserver'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
     try:
         time.sleep(2)
         #resp = urllib.request.urlopen('http://localhost:8070/o_out')
         #resp1 = urllib.request.urlopen('http://localhost:8070/a.html')
         f = open('t_out','w')
-        proc1 = subprocess.call(['dig','@127.0.0.1' ,'www.google.com'],stdout=f)
+        proc1 = subprocess.call(['./netperf_slashed_stripped'],stdout=f)
+        time.sleep(2)
         f.close()
         f = open('t_out','r')
         a = f.read()
-        if a.find("1 server found") !=-1 and a.find("no servers could be reached") == -1:
+        if a.find("TCP REQUEST/RESPONSE TEST") !=-1:
            print("Test Passed")
         else:
            print("Test Failed")
         f.close()
-
-
         os.remove('t_out')
 
 

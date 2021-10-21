@@ -104,7 +104,8 @@ then
 { "binary": "aircrack-ng_occamized"
 , "native_libs": ["${MUSLLVM_DIR}/libc.a"]
 , "name": "aircrack-ng"
-, "static_args": ["-w", "password.lst","wpa.cap"]
+, "static_args": ["-b", "00:0D:93:EB:B0:8C", "-a", "wpa", "-s", "-w", "password.lst"]
+, "dynamic_args": "1"
 , "modules": []
 , "ldflags": ["-lssl","-lcrypto","-lpthread","$(pwd)/sha1-sse2.S","-O3"]
 , "main": "aircrack-ng-with-musllvm.bc"
@@ -115,7 +116,8 @@ else
 { "binary": "aircrack-ng_occamized"
 , "native_libs": []
 , "name": "aircrack-ng"
-, "static_args": ["-w", "password.lst","wpa.cap"]
+, "static_args": ["-b", "00:0D:93:EB:B0:8C", "-a", "wpa", "-s", "-w", "password.lst"]
+, "dynamic_args": "1" 
 , "modules": []
 , "ldflags": ["-lssl","-lcrypto","-lpthread","$(pwd)/sha1-sse2.S","-O3"]
 , "main": "aircrack-ng.bc"
