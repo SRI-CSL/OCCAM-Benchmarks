@@ -35,7 +35,7 @@ ${YICES_BITCODE}: ${YICES_NAME}
 	./configure CC=gclang && \
 	sed -i 's/gcc/gclang -fno-inline -fno-inline-functions -Xclang -disable-O0-optnone -O2/g' src/Makefile && \
 	CC=${BITCODE_WRAPPER} make && \
-	${BITCODE_EXTRACT} build/x86_64-pc-linux-gnu-release/bin/${YICES}_main && \
+  ${BITCODE_EXTRACT} build/x86_64-pc-linux-gnu-release/bin/${YICES}_main && \
 	mv build/x86_64-pc-linux-gnu-release/bin/${YICES_BITCODE} ../ && \
 	cp build/x86_64-pc-linux-gnu-release/lib/libyices.a ../
 
@@ -46,7 +46,6 @@ ${YICES_NAME}:
 	mv yices2-Yices-2.6.1 ${YICES_NAME} && \
 	cd ${YICES_NAME} && autoconf && \
 	cd ..
-
 
 clean:
 	-rm *.bc *.a
