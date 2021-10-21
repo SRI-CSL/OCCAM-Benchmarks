@@ -3,45 +3,45 @@
 	{
             "dirname" : "examples/trimmer/sans",
             "execname": "sans",
-            "enabled" : "false"
+            "enabled" : "true"
         },
         {
             "dirname" : "examples/trimmer/gzip",
             "execname": "gzip",
-            "enabled" : "false"
+            "enabled" : "true"
         },
 	{
             "dirname" : "examples/trimmer/mini_httpd",
             "execname": "mini_httpd",
-            "enabled" : "false"
+            "enabled" : "true"
         },
         {
             "dirname" : "examples/trimmer/aircrack",
             "execname": "aircrack-ng",
-            "enabled" : "false"
+            "enabled" : "true"
         },
 	{
             "dirname" : "examples/trimmer/airtun",
             "execname": "airtun-ng",
-            "enabled" : "false"
+            "enabled" : "true"
         },
         {
             "dirname" : "examples/trimmer/thttpd",
             "execname": "thttpd",
-            "enabled" : "false"
+            "enabled" : "true"
         },
         {
             "dirname" : "examples/trimmer/netperf",
             "execname": "netperf",
-            "enabled" : "false"
+            "enabled" : "true"
         },
         {
             "dirname" : "examples/trimmer/wget",
             "execname": "wget",
-            "enabled" : "false"
+            "enabled" : "true"
         },
         {
-            "dirname" : "examples/trimmer/readlelf",
+            "dirname" : "examples/trimmer/readelf",
             "execname": "readelf",
             "enabled" : "false"
         },
@@ -53,37 +53,37 @@
         {
             "dirname" : "examples/trimmer/totd",
             "execname": "totd",
-            "enabled" : "false"
+            "enabled" : "true"
         },
         {
             "dirname" : "examples/trimmer/bzip2",
             "execname": "bzip2",
-            "enabled" : "false"
+            "enabled" : "true"
         },
         {
             "dirname" : "examples/trimmer/memcached",
             "execname": "memcached",
-            "enabled" : "false"
+            "enabled" : "true"
         },
         {
             "dirname" : "examples/trimmer/netstat",
             "execname": "netstat",
-            "enabled" : "false"
+            "enabled" : "true"
         },
         {
             "dirname" : "examples/trimmer/dnsproxy",
             "execname": "dnsproxy",
-            "enabled" : "false"
+            "enabled" : "true"
         },
         {
             "dirname" : "examples/trimmer/httping",
             "execname": "httping",
-            "enabled" : "false"
+            "enabled" : "true"
         },
         {
             "dirname" : "examples/trimmer/knockd",
             "execname": "knockd",
-            "enabled" : "false"
+            "enabled" : "true"
         },
         {
             "dirname" : "examples/trimmer/gprof",
@@ -98,7 +98,7 @@
         {
             "dirname" : "examples/trimmer/yices",
             "execname": "yices",
-            "enabled" : "false"
+            "enabled" : "true"
         }
     ]
 }

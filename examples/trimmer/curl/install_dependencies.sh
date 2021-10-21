@@ -9,5 +9,5 @@ wget https://www.openssl.org/source/openssl-1.0.2g.tar.gz
 tar xvfz openssl-1.0.2g.tar.gz
 cd openssl-1.0.2g
 ./config --prefix=/usr/local shared
-sudo make install
+make install
 cd ../..

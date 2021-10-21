@@ -19,7 +19,7 @@ test:
 	@echo "\t\tTest Readelf"
 
 	./readelf_occamized_stripped > t_out && \
-	${READELF_NAME}/${BINUTILS}/${READELF} -a ./name > o_out
+	${READELF_NAME}/${BINUTILS}/${READELF} -a name > o_out
 	@echo "Output comparison to Baseline:"
 	@cmp -s ./t_out o_out; \
 	RETVAL=$$?; \

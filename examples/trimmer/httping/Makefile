@@ -18,14 +18,14 @@ all: ${httping_BITCODE}
 test:
 	@echo "\t\tTest Httping"
 
-	./httping_occamized_stripped https://www.google.com | grep "connected to" | awk '{print $$3, $$9}' > t_out  &
-	${httping_NAME}/${httping} -G -s -c 5 -X -b -B https://www.google.com | grep "connected to" | awk '{print $$3, $$9}' > o_out &
+	./httping_occamized_stripped http://www.csl.sri.com/ | grep "connected to" | awk '{print $$3, $$9}' > t_out  &
+	${httping_NAME}/${httping} -G -s -X -b -B http://www.csl.sri.com/ | grep "connected to" | awk '{print $$3, $$9}' > o_out &
 	@sleep 6
 	@echo "Output comparison to Baseline:"
 	@cmp -s ./t_out o_out; \
 	RETVAL=$$?; \
 	if [ $$RETVAL -eq 0 ]; then \
-		echo "\treadelf test basic ping compare? Passed!"; \
+		echo "\thttping test basic ping compare? Passed!"; \
 	else \
 		echo "\thttping test basic ping compare? Failed!"; \
 	fi

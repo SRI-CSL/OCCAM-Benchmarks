@@ -24,6 +24,17 @@ CFLAGS = -mem2reg -loops -lcssa -loop-simplify -loop-rotate -indvars
 
 all: ${AIRCRACK-NG_BITCODE}
 
+aircrack: ${OUT_DIR}
+	cp ${AIRCRACK-NG_BITCODE} ${OUT_DIR} && \
+	cp sha1-sse2.S ${OUT_DIR} && \
+	cp password.lst ${OUT_DIR} && \
+	cp wpa.cap ${OUT_DIR} && \
+	cd ${OUT_DIR} && \
+	echo '{"binary": "aircrack-ng_fin", "native_libs": [], "name": "aircrack-ng", "args": ["-b", "_","-a","wpa","-s","-w","password.lst","_"], "modules": [], "ldflags": ["-lssl","-lcrypto","-lpthread","sha1-sse2.S"], "main": "aircrack-ng.bc", "config_files": []}' > ${AIRCRACK-NG_MANIFEST} && \
+	python ${TRIMMER_HOME}/tool/trimmer.py ${AIRCRACK-NG_MANIFEST} ./aircrack  > ${LOG_FILE}
+	@cp ${OUT_DIR}/password.lst ${OUT_DIR}/aircrack/ && \
+	cp ${OUT_DIR}/wpa.cap ${OUT_DIR}/aircrack/
+	
 .PHONY: ${AIRCRACK-NG_BITCODE}
 ${AIRCRACK-NG_BITCODE}: ${AIRCRACK-NG_NAME}
 	cp crypto.patch ${AIRCRACK-NG_NAME}/src/ && \
