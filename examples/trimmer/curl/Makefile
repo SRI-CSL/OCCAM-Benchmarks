@@ -7,6 +7,7 @@ curl_TAR=${curl_NAME}.tar.gz
 
 curl_MANIFEST=${curl}.manifest
 
+BUILD_DIR?=build
 OUT_DIR?=slash
 LOG_FILE?=logs
 
@@ -18,17 +19,17 @@ all: ${curl_BITCODE}
 .PHONY: ${curl_BITCODE}
 ${curl_BITCODE}: ${curl_NAME}
 	cd ${curl_NAME} && \
-	CC=${BITCODE_WRAPPER} CFLAGS=" -Xclang -disable-O0-optnone" ./configure && \
+        mkdir ${BUILD_DIR} && \
+	CC=${BITCODE_WRAPPER} CFLAGS=" -Xclang -disable-O0-optnone" ./configure --prefix=${PWD}/${BUILD_DIR} && \
 	sed -i 's/CFLAGS = -Xclang -disable-O0-optnone -Qunused-arguments -Os/CFLAGS = -Xclang -disable-O0-optnone/g' src/Makefile && \
 	CC=${BITCODE_WRAPPER} make && \
         make install && \
-	cp /usr/local/bin/curl  ../ && \
-        chmod 777 ../${curl} && \
-        ${BITCODE_EXTRACT} ../${curl}
+        ${BITCODE_EXTRACT} ../${BUILD_DIR}/bin/${curl} && \
+	mv ../${BUILD_DIR}/bin/${curl_BITCODE} ../
 
 test:
 	@echo "\t\tTest Curl"
-	
+
 	./curl_occamized_stripped https://www.sri.com > t_out && \
 	./curl --compress --http1.1 --ipv4 --ssl https://www.sri.com > o_out
 	@echo "Output comparison to Baseline:"
@@ -42,7 +43,6 @@ test:
 	@rm ./o_out
 	@rm ./t_out
 
-		
 ${OUT_DIR}:
 	mkdir -p ${OUT_DIR}
 
@@ -53,4 +53,4 @@ ${curl_NAME}:
 clean:
 	-rm -rf ${curl_NAME} ${curl_TAR} curl
 	-rm -rf *.bc *manifest *slash* *occamized*
-	-rm -r ${OUT_DIR}
+	-rm -r ${OUT_DIR} ${BUILD_DIR}
