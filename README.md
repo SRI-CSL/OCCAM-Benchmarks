@@ -71,6 +71,7 @@ mcf           43      22          48    2592     2388           7         654   
 - `portfolio`: some real applications 
 - `spec2006`: SPEC 2006 benchmarks
 - `coreutils`: coreutils benchmarks
+- `trimmer`: [Trimmer](https://github.com/ashish-gehani/trimmer) evaluation applications
 
 ## Deprecated options which are not maintained anymore ##
 
